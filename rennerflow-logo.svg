@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="RennerFlow">
+  <title>RennerFlow</title>
+  <g fill="#C4FF47">
+    <path d="M4 6L20 6L22 11L6 11Z"/>
+    <path d="M7 13L23 13L25 18L9 18Z"/>
+    <path d="M10 20L26 20L28 25L12 25Z"/>
+  </g>
+</svg>
