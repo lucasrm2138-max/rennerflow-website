@@ -24,6 +24,7 @@ const EVENT_SLUG = "scoping-call";
 const ALLOWED_ORIGINS = [
   "https://rennerflow.com",
   "https://www.rennerflow.com",
+  "https://rennerflow-website.pages.dev",
   // dev/preview
   "http://localhost:8000",
   "http://localhost:3000",
