@@ -199,6 +199,20 @@ h1.display .char{display:inline-block;will-change:transform,opacity;transform:tr
 .proof-chip svg{width:14px;height:14px;color:var(--ink-mute);flex-shrink:0}
 @media (max-width:820px){.proof{grid-template-columns:1fr;gap:16px}.proof-label{max-width:none}}
 
+/* ═══════════════════ Trusted by ═══════════════════ */
+.trusted-by{padding:16px 0 56px;text-align:center}
+.trusted-by .trusted-eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-mute);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:22px}
+.trusted-row{display:grid;grid-template-columns:repeat(5,1fr);gap:18px;align-items:stretch;max-width:820px;margin:0 auto;padding:0 24px}
+.trusted-slot{height:72px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.05);border-radius:10px}
+.trusted-slot.has-logo a{display:inline-flex;align-items:center;opacity:0.6;transition:opacity 0.2s ease}
+.trusted-slot.has-logo a:hover{opacity:0.95}
+.trusted-slot img{height:50px;width:auto;display:block}
+@media (max-width:720px){
+  .trusted-row{grid-template-columns:repeat(3,1fr);gap:12px;max-width:520px}
+  .trusted-slot{height:60px}
+  .trusted-slot img{height:40px}
+}
+
 /* ═══════════════════ Results strip ═══════════════════ */
 .results{padding:80px 0 80px;position:relative}
 .results-inner{
@@ -714,6 +728,24 @@ input,textarea,select{font-size:16px}
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
       </a>
       <a href="#how" class="btn btn-ghost btn-lg">See how it works</a>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────── TRUSTED BY ─────────── -->
+<section class="trusted-by reveal">
+  <div class="wrap">
+    <div class="trusted-eyebrow">Trusted by</div>
+    <div class="trusted-row">
+      <div class="trusted-slot empty"></div>
+      <div class="trusted-slot empty"></div>
+      <div class="trusted-slot has-logo">
+        <a href="https://radicle.vc" target="_blank" rel="noopener" aria-label="Radicle Growth">
+          <img src="/radicle-growth-logo.png" alt="Radicle Growth" />
+        </a>
+      </div>
+      <div class="trusted-slot empty"></div>
+      <div class="trusted-slot empty"></div>
     </div>
   </div>
 </section>
