@@ -145,8 +145,6 @@ nav.top.scrolled{background:rgba(9,10,7,0.85);border-color:var(--border-hi)}
 }
 .btn:hover{background:#D2FF6E}
 .btn:active{transform:translateY(1px)}
-.btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--border-hi)}
-.btn-ghost:hover{background:var(--surface-hi);border-color:rgba(242,244,236,0.28)}
 .btn-lg{padding:15px 26px;font-size:16px}
 @media (max-width:720px){.nav-links a:not(.btn){display:none}.nav-links .btn{display:none}}
 
@@ -296,15 +294,14 @@ h2.big .accent{color:var(--lime)}
 }
 
 /* ═══════════════════ Integration chips ═══════════════════ */
-.stack-line{margin-top:52px;padding-top:30px;border-top:1px solid var(--border)}
-.stack-line > p{font-size:14px;color:var(--ink-mute);margin-bottom:16px}
+.stack-line{margin-top:36px}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
 .chips span{
   font-family:'Geist Mono',monospace;font-size:12px;color:var(--ink-dim);
   padding:8px 15px;border:1px solid var(--border);border-radius:100px;background:var(--surface);
 }
 
-/* ═══════════════════ How it works ═══════════════════ */
+/* ═══════════════════ Process strip ═══════════════════ */
 .how-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
 .how-stage{
   padding:28px 26px 8px 0;margin-right:26px;
@@ -313,86 +310,12 @@ h2.big .accent{color:var(--lime)}
 .how-stage::before{
   content:"";position:absolute;top:-1px;left:0;width:44px;height:1px;background:var(--lime);
 }
-.how-stage h3{font-size:19px;font-weight:600;letter-spacing:-0.02em;margin-bottom:10px}
-.how-stage p{color:var(--ink-dim);font-size:14.5px;line-height:1.6}
+.how-stage .no{font-family:'Geist Mono',monospace;font-size:12px;color:var(--ink-mute);margin-bottom:12px}
+.how-stage h3{font-size:18px;font-weight:600;letter-spacing:-0.02em;line-height:1.3}
 @media (max-width:900px){
   .how-grid{grid-template-columns:1fr;gap:8px}
   .how-stage{margin-right:0;padding:22px 0 14px}
 }
-
-/* ═══════════════════ Email section ═══════════════════ */
-#email{background:var(--bg-2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
-.email-grid{display:grid;grid-template-columns:1fr 1.05fr;gap:64px;align-items:center}
-@media (max-width:960px){.email-grid{grid-template-columns:1fr;gap:40px}}
-.email-content h2{font-size:clamp(32px,4.2vw,56px);font-weight:600;letter-spacing:-0.03em;line-height:1.04;margin-bottom:22px}
-.email-content h2 .accent{color:var(--lime)}
-.email-content p{color:var(--ink-dim);font-size:16px;line-height:1.65;margin-bottom:16px;max-width:54ch}
-
-.inbox{
-  padding:26px;border:1px solid var(--border-hi);border-radius:var(--r-card);
-  background:var(--bg);
-}
-.inbox .hdr{
-  padding-bottom:14px;margin-bottom:16px;
-  border-bottom:1px solid var(--border);font-family:'Geist Mono',monospace;font-size:12px;color:var(--ink-mute);
-}
-.email{
-  padding:14px 16px;background:var(--surface);border:1px solid var(--border);
-  border-radius:var(--r-card);margin-bottom:10px;
-}
-.email .from{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px}
-.email .from .name{font-size:14px;font-weight:500;color:var(--ink)}
-.email .from .t{font-family:'Geist Mono',monospace;font-size:11px;color:var(--ink-mute)}
-.email .subj{font-size:13px;color:var(--ink-dim);line-height:1.5;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.email .chip{
-  display:inline-flex;align-items:center;margin-top:8px;padding:3px 10px;
-  background:var(--lime-tint);border:1px solid var(--lime-line);border-radius:100px;
-  font-family:'Geist Mono',monospace;font-size:10px;color:var(--lime);
-}
-.flow-down{margin:22px 0 16px;display:flex;flex-direction:column;align-items:center;gap:4px}
-.flow-down .ln{width:1px;height:14px;background:linear-gradient(180deg,transparent,var(--border-hi),transparent)}
-.flow-down .ln.mid{background:var(--lime-line)}
-.flow-down .lbl{font-family:'Geist Mono',monospace;font-size:10px;color:var(--lime);letter-spacing:0.12em;text-transform:uppercase;padding:2px 0}
-.crm-card{
-  padding:18px;
-  background:var(--lime-tint);
-  border:1px solid var(--lime-line);border-radius:var(--r-card);
-}
-.crm-card .t{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.crm-card .t .title{font-size:13px;font-weight:500}
-.crm-card .t .status{font-family:'Geist Mono',monospace;font-size:10px;color:var(--lime);text-transform:uppercase;letter-spacing:0.05em}
-.crm-card .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 18px}
-.crm-card .cell .k{font-size:10px;font-family:'Geist Mono',monospace;color:var(--ink-mute);letter-spacing:0.05em;text-transform:uppercase}
-.crm-card .cell .v{font-size:13px;color:var(--ink);margin-top:2px}
-
-/* ═══════════════════ Process ═══════════════════ */
-.process-list{display:grid;gap:0;max-width:860px}
-.process-step{
-  display:grid;grid-template-columns:180px 1fr;gap:32px;
-  padding:36px 0;border-top:1px solid var(--border);
-}
-.process-step:last-child{border-bottom:1px solid var(--border)}
-.process-step .no{
-  font-family:'Geist Mono',monospace;font-size:13px;color:var(--lime);
-  display:flex;flex-direction:column;gap:8px;
-}
-.process-step .no .dur{color:var(--ink-mute);font-size:12px}
-.process-step h3{font-size:21px;font-weight:600;letter-spacing:-0.02em;margin-bottom:10px}
-.process-step p{color:var(--ink-dim);font-size:15.5px;line-height:1.65;max-width:56ch}
-@media (max-width:720px){
-  .process-step{grid-template-columns:1fr;gap:12px;padding:28px 0}
-  .process-step .no{flex-direction:row;justify-content:space-between;align-items:baseline}
-}
-
-/* ═══════════════════ FAQ ═══════════════════ */
-.faq-grid{display:grid;gap:0;margin-top:36px;max-width:860px;border-top:1px solid var(--border-hi)}
-.faq-item{
-  display:grid;grid-template-columns:1fr 1.2fr;gap:28px;align-items:baseline;
-  padding:22px 0;border-bottom:1px solid var(--border);
-}
-.faq-item h3{font-size:16px;font-weight:600;letter-spacing:-0.015em;line-height:1.4}
-.faq-item p{color:var(--ink-dim);font-size:14.5px;line-height:1.6}
-@media (max-width:720px){.faq-item{grid-template-columns:1fr;gap:6px;padding:18px 0}}
 
 /* ═══════════════════ Contact ═══════════════════ */
 .tz-label{color:var(--lime)}
@@ -554,11 +477,6 @@ footer a:hover{color:var(--lime)}
   .bk-chosen-when{font-size:17px}
   .bk-form input,.bk-form textarea{font-size:16px;padding:14px 15px}
   .booking-btn{padding:16px 28px;font-size:16px;width:100%;justify-content:center}
-  .inbox{padding:20px}
-  .email{padding:12px 14px}
-  .email .from .name{font-size:13px}
-  .email .subj{font-size:12px}
-  .crm-card .grid{gap:8px 14px}
   .case-stat .n{font-size:clamp(72px,20vw,110px)}
   footer .inner{flex-direction:column;align-items:flex-start}
 }
@@ -590,9 +508,8 @@ input,textarea,select{font-size:16px}
   </a>
   <div class="nav-links">
     <a href="#work">Case study</a>
-    <a href="#how">How it works</a>
+    <a href="#capabilities">Workflows</a>
     <a href="#process">Process</a>
-    <a href="#faq">FAQ</a>
     <a href="#contact" class="btn">Book a call</a>
   </div>
   <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
@@ -602,9 +519,8 @@ input,textarea,select{font-size:16px}
 <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
   <div class="mobile-menu-inner">
     <a href="#work" data-mm>Case study</a>
-    <a href="#how" data-mm>How it works</a>
+    <a href="#capabilities" data-mm>Workflows</a>
     <a href="#process" data-mm>Process</a>
-    <a href="#faq" data-mm>FAQ</a>
     <a href="#contact" class="mm-cta" data-mm>Book a call</a>
     <a href="mailto:consultation@rennerflow.com?subject=RennerFlow%20scoping%20call" class="mm-email" data-mm>consultation@rennerflow.com</a>
   </div>
@@ -625,7 +541,6 @@ input,textarea,select{font-size:16px}
           <a href="#contact" class="btn btn-lg">Book a call
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
           </a>
-          <a href="#how" class="btn btn-ghost btn-lg">See how it works</a>
         </div>
       </div>
 
@@ -700,87 +615,9 @@ input,textarea,select{font-size:16px}
         <div class="io">five tabs + two tools<span class="arr">&rarr;</span>one report</div>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- ─────────── HOW IT WORKS ─────────── -->
-<section id="how">
-  <div class="wrap">
-    <div class="section-intro reveal">
-      <h2 class="big">Signal in, <span class="accent">structure out.</span></h2>
-    </div>
-    <div class="how-grid reveal-stagger">
-      <div class="how-stage">
-        <h3>Watch</h3>
-        <p>Your sources, on a schedule.</p>
-      </div>
-      <div class="how-stage">
-        <h3>Extract</h3>
-        <p>Prose, PDFs, tables, screenshots.</p>
-      </div>
-      <div class="how-stage">
-        <h3>Enrich</h3>
-        <p>Against your taxonomy.</p>
-      </div>
-      <div class="how-stage">
-        <h3>File</h3>
-        <p>Clean rows, deduplicated.</p>
-      </div>
-    </div>
     <div class="stack-line reveal">
-      <p>Built into the tools you already run.</p>
       <div class="chips">
         <span>Gmail</span><span>Outlook</span><span>Salesforce</span><span>HubSpot</span><span>Affinity</span><span>Zoho</span><span>Airtable</span><span>Google Sheets</span><span>Notion</span><span>Slack</span><span>custom webhooks</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ─────────── EMAIL SECTION ─────────── -->
-<section id="email">
-  <div class="wrap">
-    <div class="email-grid">
-      <div class="email-content reveal">
-        <h2>Forward it. <span class="accent">Done.</span></h2>
-        <p>Your team forwards email like it already does. The workflow does the rest.</p>
-      </div>
-
-      <div class="inbox reveal" aria-label="Example of forwarded email becoming CRM records">
-        <div class="hdr">forward@your-firm.rennerflow.com</div>
-
-        <div class="email">
-          <div class="from"><span class="name">Partner, Peer Fund</span> <span class="t">09:42</span></div>
-          <div class="subj">Fwd: Opportunity, Series B industrial AI company</div>
-          <div class="chip">memo + deck</div>
-        </div>
-        <div class="email">
-          <div class="from"><span class="name">Private newsletter</span> <span class="t">10:15</span></div>
-          <div class="subj">Weekly roundup: 11 funding rounds this week</div>
-          <div class="chip">11 records detected</div>
-        </div>
-        <div class="email">
-          <div class="from"><span class="name">Intro, Lana Okafor</span> <span class="t">11:03</span></div>
-          <div class="subj">Founder intro, climate hardware, Seed</div>
-          <div class="chip">single record + link</div>
-        </div>
-
-        <div class="flow-down" aria-hidden="true">
-          <div class="ln"></div>
-          <div class="ln mid"></div>
-          <div class="lbl">extract, enrich, dedupe, file</div>
-          <div class="ln mid"></div>
-          <div class="ln"></div>
-        </div>
-
-        <div class="crm-card">
-          <div class="t"><span class="title">Filed in your CRM</span> <span class="status">synced</span></div>
-          <div class="grid">
-            <div class="cell"><div class="k">detected</div><div class="v">13 records</div></div>
-            <div class="cell"><div class="k">duplicates</div><div class="v">2 blocked</div></div>
-            <div class="cell"><div class="k">new rows</div><div class="v">11 written</div></div>
-            <div class="cell"><div class="k">enriched</div><div class="v">all fields</div></div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -790,63 +627,24 @@ input,textarea,select{font-size:16px}
 <section id="process">
   <div class="wrap">
     <div class="section-intro reveal">
-      <h2 class="big">A clear path from <span class="accent">scope to live.</span></h2>
+      <h2 class="big">Scope to live, <span class="accent">about six weeks.</span></h2>
     </div>
-    <div class="process-list reveal-stagger">
-      <div class="process-step">
-        <div class="no"><span>01 / Scope</span><span class="dur">about two weeks</span></div>
-        <div>
-          <h3>I run your workflow by hand first.</h3>
-        </div>
+    <div class="how-grid reveal-stagger">
+      <div class="how-stage">
+        <div class="no">01 · two weeks</div>
+        <h3>I run your workflow by hand.</h3>
       </div>
-      <div class="process-step">
-        <div class="no"><span>02 / Build</span><span class="dur">about two weeks</span></div>
-        <div>
-          <h3>It gets built into your existing systems.</h3>
-        </div>
+      <div class="how-stage">
+        <div class="no">02 · two weeks</div>
+        <h3>Built into your existing systems.</h3>
       </div>
-      <div class="process-step">
-        <div class="no"><span>03 / Audit</span><span class="dur">about two weeks</span></div>
-        <div>
-          <h3>We review the first 100 outputs together.</h3>
-        </div>
+      <div class="how-stage">
+        <div class="no">03 · two weeks</div>
+        <h3>First 100 outputs reviewed together.</h3>
       </div>
-      <div class="process-step">
-        <div class="no"><span>04 / Ship</span><span class="dur">ongoing</span></div>
-        <div>
-          <h3>Live, monitored, maintained.</h3>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ─────────── FAQ ─────────── -->
-<section id="faq">
-  <div class="wrap">
-    <div class="section-intro reveal">
-      <h2 class="big">The usual questions.</h2>
-    </div>
-    <div class="faq-grid reveal-stagger">
-      <div class="faq-item">
-        <h3>Is this only for investment firms?</h3>
-        <p>No. Deal flow is where it's proven; the same system runs any recurring workflow.</p>
-      </div>
-      <div class="faq-item">
-        <h3>Why not an off-the-shelf tool?</h3>
-        <p>Off-the-shelf tools give you another interface to work in. This runs inside the ones you already use.</p>
-      </div>
-      <div class="faq-item">
-        <h3>How long until it is live?</h3>
-        <p>Three to five weeks from scoping call to first live run.</p>
-      </div>
-      <div class="faq-item">
-        <h3>What about data privacy?</h3>
-        <p>Dedicated infrastructure per client. Or host it in your own cloud.</p>
-      </div>
-      <div class="faq-item">
-        <h3>Who is already using this?</h3>
-        <p>Radicle Growth, since April 2026. Happy to make an intro.</p>
+      <div class="how-stage">
+        <div class="no">04 · ongoing</div>
+        <h3>Live, monitored, maintained.</h3>
       </div>
     </div>
   </div>

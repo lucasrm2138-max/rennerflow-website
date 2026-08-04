@@ -15,10 +15,7 @@ RennerFlow is proven in production on deal sourcing for investment firms and run
 
 - [Case study](#work)
 - [Capabilities](#capabilities)
-- [How it works](#how)
-- [Email forwarding](#email)
 - [Process overview](#process)
-- [FAQ](#faq)
 - [Book a call](#contact)
 
 ## Workflow Automation
