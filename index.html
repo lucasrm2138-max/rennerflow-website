@@ -213,7 +213,6 @@ h1.display{
   font-size:clamp(40px,4.6vw,63px);font-weight:700;line-height:1.04;letter-spacing:-0.025em;
   margin-bottom:26px;
 }
-h1.display .accent{color:var(--lime)}
 .lede{font-size:clamp(17px,1.4vw,19px);color:var(--ink-dim);max-width:52ch;margin-bottom:36px;line-height:1.6}
 .cta-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
 
@@ -236,7 +235,7 @@ h1.display .accent{color:var(--lime)}
   font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;
   color:var(--ink-mute);display:flex;justify-content:space-between;gap:12px;
 }
-.spec-head .k{color:var(--lime)}
+.spec-head .k{color:var(--ink-dim)}
 .spec-body{padding:10px 22px 16px}
 .run-row{
   display:grid;grid-template-columns:76px 1fr auto;gap:14px;align-items:baseline;
@@ -278,15 +277,14 @@ h2.big{
   font-family:'Bricolage Grotesque','Geist',sans-serif;
   font-size:clamp(32px,4.6vw,56px);font-weight:700;line-height:1.06;letter-spacing:-0.02em;text-wrap:balance;
 }
-h2.big .accent{color:var(--lime)}
 .section-intro{max-width:720px;margin-bottom:40px}
 .section-intro p{color:var(--ink-dim);font-size:17px;line-height:1.6;margin-top:18px;max-width:58ch}
 
 /* ═══════════════════ Case study ═══════════════════ */
 .case-panel{
-  border:1px solid var(--lime-line);border-radius:var(--r-card);
+  border:1px solid var(--border-hi);border-radius:var(--r-card);
   background:
-    radial-gradient(700px circle at 0% 0%,rgba(196,255,71,0.08),transparent 55%),
+    radial-gradient(700px circle at 0% 0%,rgba(196,255,71,0.06),transparent 55%),
     var(--bg-2);
   padding:56px;display:grid;grid-template-columns:1.2fr 0.8fr;gap:56px;align-items:center;
 }
@@ -335,7 +333,8 @@ h2.big .accent{color:var(--lime)}
   text-transform:uppercase;letter-spacing:0.08em;vertical-align:2px;
 }
 .flow-row .io{font-family:'Geist Mono',monospace;font-size:13px;color:var(--ink-dim);line-height:1.6}
-.flow-row .io .arr{color:var(--lime);padding:0 8px}
+.flow-row .io .arr{color:var(--ink-mute);padding:0 8px}
+.flow-row:hover .io .arr{color:var(--lime)}
 @media (max-width:720px){
   .flow-row{grid-template-columns:1fr;gap:6px;padding:18px 0}
   .flow-row .io{font-size:12px}
@@ -368,7 +367,7 @@ h2.big .accent{color:var(--lime)}
 }
 
 /* ═══════════════════ Contact ═══════════════════ */
-.tz-label{color:var(--lime)}
+.tz-label{color:var(--ink-dim)}
 .booker{
   border:1px solid var(--border-hi);border-radius:var(--r-card);
   background:var(--bg-2);
@@ -588,7 +587,7 @@ input,textarea,select{font-size:16px}
   <div class="wrap">
     <div class="hero-grid">
       <div class="hero-copy">
-        <h1 class="display">The work you repeat,<br /><span class="accent">running itself.</span></h1>
+        <h1 class="display">The work you repeat,<br />running itself.</h1>
         <p class="lede">
           Custom AI workflows, built into the tools your team already uses.
         </p>
@@ -643,7 +642,7 @@ input,textarea,select{font-size:16px}
 <section id="capabilities">
   <div class="wrap">
     <div class="section-intro reveal">
-      <h2 class="big">Proven on deal flow. Built for <span class="accent">any workflow.</span></h2>
+      <h2 class="big">Proven on deal flow. Built for any workflow.</h2>
     </div>
     <div class="flow-table reveal-stagger">
       <div class="flow-row">
@@ -683,7 +682,7 @@ input,textarea,select{font-size:16px}
 <section id="process">
   <div class="wrap">
     <div class="section-intro reveal">
-      <h2 class="big">Scope to live, <span class="accent">about six weeks.</span></h2>
+      <h2 class="big">Scope to live, about six weeks.</h2>
     </div>
     <div class="how-grid reveal-stagger">
       <div class="how-stage">
@@ -710,7 +709,7 @@ input,textarea,select{font-size:16px}
 <section id="contact">
   <div class="wrap">
     <div class="section-intro reveal">
-      <h2 class="big">Scope a workflow <span class="accent">for your team.</span></h2>
+      <h2 class="big">Scope a workflow for your team.</h2>
       <p>30 minutes, Google Meet. Times shown in <span id="bk-tz-label" class="tz-label">your local timezone</span>.</p>
     </div>
 
