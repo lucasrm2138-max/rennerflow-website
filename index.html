@@ -109,8 +109,8 @@ body{
 
 /* ═══════════════════ Layout ═══════════════════ */
 .wrap{max-width:var(--max);margin:0 auto;padding:0 28px;position:relative}
-section{padding:104px 0;position:relative}
-@media (max-width:768px){section{padding:72px 0}}
+section{padding:84px 0;position:relative}
+@media (max-width:768px){section{padding:64px 0}}
 
 .skip-link{
   position:absolute;left:-9999px;top:0;z-index:200;
@@ -191,7 +191,7 @@ nav.top.scrolled{background:rgba(9,10,7,0.85);border-color:var(--border-hi)}
 }
 
 /* ═══════════════════ Hero ═══════════════════ */
-.hero{padding:164px 0 96px}
+.hero{padding:148px 0 64px}
 .hero-grid{display:grid;grid-template-columns:1.3fr 0.7fr;gap:56px;align-items:center}
 @media (max-width:960px){.hero-grid{grid-template-columns:1fr;gap:44px}}
 
@@ -223,25 +223,34 @@ h1.display .accent{color:var(--lime)}
   color:var(--ink-mute);display:flex;justify-content:space-between;gap:12px;
 }
 .spec-head .k{color:var(--lime)}
-.spec-body{padding:10px 22px 18px}
-.spec-row{
-  display:grid;grid-template-columns:104px 1fr;gap:16px;align-items:baseline;
-  padding:12px 0;border-bottom:1px solid var(--border);
+.spec-body{padding:10px 22px 16px}
+.run-row{
+  display:grid;grid-template-columns:76px 1fr auto;gap:14px;align-items:baseline;
+  padding:13px 0;border-bottom:1px solid var(--border);
+  font-family:'Geist Mono',monospace;font-size:13px;line-height:1.4;
 }
-.spec-row:last-child{border-bottom:none}
-.spec-row .key{font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-mute)}
-.spec-row .val{font-family:'Geist Mono',monospace;font-size:13.5px;color:var(--ink);line-height:1.5}
-.spec-row .val em{font-style:normal;color:var(--lime)}
+.run-row:last-child{border-bottom:none}
+.run-row .t{font-size:11px;color:var(--ink-mute)}
+.run-row .msg{color:var(--ink)}
+.run-row .st{color:var(--lime);opacity:0;transition:opacity .3s var(--ease)}
+.run-row.done .st{opacity:1}
+.run-row.final .msg{color:var(--ink-mute);text-transform:uppercase;font-size:11px;letter-spacing:0.08em}
+.run-row .st.lime{font-size:13px}
+@media (prefers-reduced-motion: no-preference){
+  .run-row{opacity:0;transform:translateY(5px);transition:opacity .45s var(--ease),transform .45s var(--ease)}
+  .run-row .st{transition:opacity .3s var(--ease)}
+}
+.run-row.on{opacity:1;transform:none}
+@media (prefers-reduced-motion: reduce){.run-row{opacity:1}.run-row .st{opacity:1}}
 @media (max-width:560px){
-  .spec-body{padding:6px 18px 14px}
-  .spec-row{grid-template-columns:88px 1fr;gap:12px}
-  .spec-row .val{font-size:12.5px}
+  .spec-body{padding:6px 18px 12px}
+  .run-row{grid-template-columns:64px 1fr auto;gap:10px;font-size:12px}
 }
 
 /* ═══════════════════ Section heads ═══════════════════ */
 h2.big{font-size:clamp(32px,4.6vw,56px);font-weight:600;line-height:1.06;letter-spacing:-0.03em;text-wrap:balance}
 h2.big .accent{color:var(--lime)}
-.section-intro{max-width:720px;margin-bottom:52px}
+.section-intro{max-width:720px;margin-bottom:40px}
 .section-intro p{color:var(--ink-dim);font-size:17px;line-height:1.6;margin-top:18px;max-width:58ch}
 
 /* ═══════════════════ Case study ═══════════════════ */
@@ -285,6 +294,11 @@ h2.big .accent{color:var(--lime)}
 }
 .flow-row:hover{background:var(--surface)}
 .flow-row h3{font-size:16px;font-weight:600;letter-spacing:-0.015em}
+.flow-row h3 .live{
+  font-family:'Geist Mono',monospace;font-size:10px;font-weight:400;color:var(--lime);
+  border:1px solid var(--lime-line);border-radius:100px;padding:2px 9px;margin-left:10px;
+  text-transform:uppercase;letter-spacing:0.08em;vertical-align:2px;
+}
 .flow-row .io{font-family:'Geist Mono',monospace;font-size:13px;color:var(--ink-dim);line-height:1.6}
 .flow-row .io .arr{color:var(--lime);padding:0 8px}
 @media (max-width:720px){
@@ -545,14 +559,14 @@ input,textarea,select{font-size:16px}
       </div>
 
       <div class="hero-visual">
-        <div class="spec-card" aria-label="Example pipeline configuration">
-          <div class="spec-head"><span class="k">workflow</span><span>representative example</span></div>
-          <div class="spec-body">
-            <div class="spec-row"><span class="key">trigger</span><span class="val">every weekday, 07:00</span></div>
-            <div class="spec-row"><span class="key">sources</span><span class="val">14 newsletters, 3 registries, 1 shared inbox</span></div>
-            <div class="spec-row"><span class="key">steps</span><span class="val">extract, enrich, dedupe, score</span></div>
-            <div class="spec-row"><span class="key">output</span><span class="val">clean rows in your CRM</span></div>
-            <div class="spec-row"><span class="key">your part</span><span class="val"><em>nothing</em></span></div>
+        <div class="spec-card" aria-label="Example workflow run">
+          <div class="spec-head"><span class="k">workflow</span><span>example run</span></div>
+          <div class="spec-body" id="runlog">
+            <div class="run-row"><span class="t">07:00:02</span><span class="msg">watching 18 sources</span><span class="st">&#10003;</span></div>
+            <div class="run-row"><span class="t">07:03:47</span><span class="msg">31 records extracted</span><span class="st">&#10003;</span></div>
+            <div class="run-row"><span class="t">07:09:12</span><span class="msg">enriched, 2 duplicates blocked</span><span class="st">&#10003;</span></div>
+            <div class="run-row"><span class="t">07:11:03</span><span class="msg">29 rows written to your CRM</span><span class="st">&#10003;</span></div>
+            <div class="run-row final"><span class="t"></span><span class="msg">your part</span><span class="st lime">nothing</span></div>
           </div>
         </div>
       </div>
@@ -591,7 +605,7 @@ input,textarea,select{font-size:16px}
     </div>
     <div class="flow-table reveal-stagger">
       <div class="flow-row">
-        <h3>Deal flow</h3>
+        <h3>Deal flow<span class="live">live</span></h3>
         <div class="io">newsletters + registries + inbox<span class="arr">&rarr;</span>CRM rows</div>
       </div>
       <div class="flow-row">
@@ -790,6 +804,20 @@ onScroll();
 
   window.addEventListener('resize', () => {
     if (window.innerWidth > 720 && menu.classList.contains('open')) setOpen(false);
+  });
+})();
+
+// ───── Hero run-log animation ─────
+(() => {
+  const rows = document.querySelectorAll('#runlog .run-row');
+  if (!rows.length) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    rows.forEach(r => r.classList.add('on','done'));
+    return;
+  }
+  rows.forEach((r, i) => {
+    setTimeout(() => r.classList.add('on'), 800 + i*520);
+    setTimeout(() => r.classList.add('done'), 1150 + i*520);
   });
 })();
 
