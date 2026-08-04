@@ -192,7 +192,13 @@ nav.top.scrolled{background:rgba(9,10,7,0.85);border-color:var(--border-hi)}
 }
 
 /* ═══════════════════ Hero ═══════════════════ */
-.hero{padding:148px 0 64px}
+.hero{padding:148px 0 64px;overflow:clip}
+.hero-mark{
+  position:absolute;right:-150px;top:-70px;width:600px;height:600px;
+  opacity:0.05;pointer-events:none;z-index:-1;
+}
+.hero-mark path{fill:var(--lime)}
+@media (max-width:960px){.hero-mark{width:380px;height:380px;right:-120px;top:auto;bottom:-60px;opacity:0.04}}
 .hero-grid{display:grid;grid-template-columns:1.3fr 0.7fr;gap:56px;align-items:center}
 @media (max-width:960px){.hero-grid{grid-template-columns:1fr;gap:44px}}
 
@@ -233,8 +239,12 @@ h1.display .accent{color:var(--lime)}
 .run-row:last-child{border-bottom:none}
 .run-row .t{font-size:11px;color:var(--ink-mute)}
 .run-row .msg{color:var(--ink)}
-.run-row .st{color:var(--lime);opacity:0;transition:opacity .3s var(--ease)}
+.run-row .st{color:var(--lime);opacity:0;transition:opacity .3s var(--ease);display:inline-block}
 .run-row.done .st{opacity:1}
+@media (prefers-reduced-motion: no-preference){
+  .run-row.done .st{animation:st-pop .32s var(--ease)}
+}
+@keyframes st-pop{0%{transform:scale(0.3)}65%{transform:scale(1.3)}100%{transform:scale(1)}}
 .run-row.final .msg{color:var(--ink-mute);text-transform:uppercase;font-size:11px;letter-spacing:0.08em}
 .run-row .st.lime{font-size:13px}
 @media (prefers-reduced-motion: no-preference){
@@ -547,6 +557,11 @@ input,textarea,select{font-size:16px}
 
 <!-- ─────────── HERO ─────────── -->
 <section class="hero" id="top">
+  <svg class="hero-mark" viewBox="0 0 32 32" aria-hidden="true">
+    <path d="M4 6L20 6L22 11L6 11Z"/>
+    <path d="M7 13L23 13L25 18L9 18Z"/>
+    <path d="M10 20L26 20L28 25L12 25Z"/>
+  </svg>
   <div class="wrap">
     <div class="hero-grid">
       <div class="hero-copy">
