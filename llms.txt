@@ -1,13 +1,13 @@
 # RennerFlow
 
-> RennerFlow builds custom AI pipelines for recurring workflows: the system watches a client's sources, extracts what matters, enriches each record against the client's taxonomy, and files clean rows into the client's CRM, sheet, or system of record.
+> RennerFlow builds custom AI workflows that take over repeat work inside the tools a client already uses: the system watches sources, extracts what matters, enriches records against the client's taxonomy, and files clean rows into their CRM, sheet, or system of record.
 
-RennerFlow is proven in production on deal sourcing for investment firms and runs the same architecture for any recurring workflow: media and press list building, market monitoring, research briefs, inbox triage, and recurring report assembly. Its content offers insight into pipeline automation, source management, data enrichment, and CRM workflows.
+RennerFlow is proven in production on deal sourcing for investment firms and runs the same architecture for any recurring workflow: media and press list building, market monitoring, research briefs, inbox triage, and recurring report assembly. Its content offers insight into workflow automation, source management, data enrichment, and CRM workflows.
 
 ## Case Study
 
 - Radicle Growth, an ag and foodtech venture fund, runs its deal flow on RennerFlow.
-- Two pipelines in production since April 2026: scheduled source monitoring and a dedicated team forwarding inbox.
+- Two workflows in production since April 2026: scheduled source monitoring and a dedicated team forwarding inbox.
 - Result: about 10 analyst hours saved every week, with zero manual CRM entry.
 - Reference call available on request.
 
@@ -23,7 +23,7 @@ RennerFlow is proven in production on deal sourcing for investment firms and run
 
 ## Workflow Automation
 
-- Four-stage pipeline: watch, extract, enrich, file.
+- Four-stage workflow: watch, extract, enrich, file.
 - Automated ingestion of emails, newsletters, press articles, registries, feeds, and forwarded memos.
 - Deduplication, validation, and structured submission into the client's system of record.
 - Integration with Salesforce, HubSpot, Zoho, Affinity, Airtable, Pipedrive, Google Sheets, Notion, Slack, and custom webhooks.

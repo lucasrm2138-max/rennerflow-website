@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="description" content="RennerFlow builds custom AI pipelines that watch your sources, extract what matters, and file it where your team works. Proven on VC deal flow at Radicle Growth: 10 analyst hours saved every week." />
-<meta property="og:title" content="RennerFlow · Custom AI pipelines for recurring workflows" />
-<meta property="og:description" content="The work you repeat, running itself. Proven on deal flow at Radicle Growth: 10 analyst hours saved every week." />
+<meta name="description" content="RennerFlow builds custom AI workflows that take over repeat work, inside the tools your team already uses. 10 analyst hours a week saved at Radicle Growth." />
+<meta property="og:title" content="RennerFlow · Custom AI workflows for the work you repeat" />
+<meta property="og:description" content="The work you repeat, running itself. 10 analyst hours a week saved at Radicle Growth." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://rennerflow.com/" />
 <meta property="og:image" content="https://rennerflow.com/og-image.png" />
@@ -15,10 +15,10 @@
 <meta property="og:image:height" content="630" />
 <meta property="og:image:alt" content="RennerFlow, custom AI pipelines for recurring workflows." />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="RennerFlow · Custom AI pipelines for recurring workflows" />
-<meta name="twitter:description" content="The work you repeat, running itself. Proven on deal flow at Radicle Growth: 10 analyst hours saved every week." />
+<meta name="twitter:title" content="RennerFlow · Custom AI workflows for the work you repeat" />
+<meta name="twitter:description" content="The work you repeat, running itself. 10 analyst hours a week saved at Radicle Growth." />
 <meta name="twitter:image" content="https://rennerflow.com/og-image.png" />
-<title>RennerFlow · Custom AI pipelines for recurring workflows</title>
+<title>RennerFlow · Custom AI workflows for the work you repeat</title>
 <link rel="canonical" href="https://rennerflow.com/" />
 <link rel="icon" type="image/svg+xml" href="/rennerflow-logo.svg" />
 <script type="application/ld+json">
@@ -29,7 +29,7 @@
   "url": "https://rennerflow.com/",
   "logo": "https://rennerflow.com/rennerflow-logo.svg",
   "image": "https://rennerflow.com/og-image.png",
-  "description": "RennerFlow builds custom AI pipelines that watch your sources, extract what matters, and file it where your team works. Deal sourcing for investment firms, media lists, research briefs, inbox triage, and recurring reports.",
+  "description": "RennerFlow builds custom AI workflows that take over repeat work, inside the tools your team already uses. Deal sourcing, media lists, research briefs, inbox triage, and recurring reports.",
   "email": "consultation@rennerflow.com",
   "founder": { "@type": "Person", "name": "Lucas Renner Morales" },
   "knowsAbout": ["workflow automation", "deal sourcing", "venture capital", "CRM automation", "AI pipelines", "data enrichment", "media list building"],
@@ -278,40 +278,30 @@ h2.big .accent{color:var(--lime)}
   .case-stat{border-left:none;padding-left:0;border-top:1px solid var(--border-hi);padding-top:36px}
 }
 
-/* ═══════════════════ Capabilities ═══════════════════ */
-.cap-grid{display:grid;grid-template-columns:5fr 7fr;gap:16px;align-items:stretch}
-.cap-featured{
-  background:linear-gradient(180deg,rgba(196,255,71,0.07),rgba(196,255,71,0.02));
-  border:1px solid var(--lime-line);border-radius:var(--r-card);
-  padding:36px 32px;display:flex;flex-direction:column;
+/* ═══════════════════ Workflow catalog ═══════════════════ */
+.flow-table{border-top:1px solid var(--border-hi)}
+.flow-row{
+  display:grid;grid-template-columns:200px 1fr;gap:28px;align-items:baseline;
+  padding:22px 0;border-bottom:1px solid var(--border);
+  transition:background .2s;
 }
-.cap-featured h3{font-size:24px;font-weight:600;letter-spacing:-0.02em;line-height:1.15;margin-bottom:14px}
-.cap-featured p{color:var(--ink-dim);font-size:15.5px;line-height:1.6}
-.cap-featured .cap-includes{margin-top:26px;display:grid;gap:0}
-.cap-featured .cap-includes li{
-  font-family:'Geist Mono',monospace;font-size:12.5px;color:var(--ink-dim);
-  padding:10px 0;border-top:1px solid var(--border);
+.flow-row:hover{background:var(--surface)}
+.flow-row h3{font-size:16px;font-weight:600;letter-spacing:-0.015em}
+.flow-row .io{font-family:'Geist Mono',monospace;font-size:13px;color:var(--ink-dim);line-height:1.6}
+.flow-row .io .arr{color:var(--lime);padding:0 8px}
+@media (max-width:720px){
+  .flow-row{grid-template-columns:1fr;gap:6px;padding:18px 0}
+  .flow-row .io{font-size:12px}
+  .flow-row .io .arr{padding:0 5px}
 }
-.cap-featured .cap-link{
-  margin-top:auto;padding-top:28px;display:inline-flex;align-items:center;gap:8px;
-  color:var(--lime);font-weight:500;font-size:15px;
-}
-.cap-featured .cap-link svg{transition:transform .2s var(--ease)}
-.cap-featured .cap-link:hover svg{transform:translateX(3px)}
-.cap-list{display:grid;gap:12px}
-.cap-row{
-  background:var(--surface);border:1px solid var(--border);border-radius:var(--r-card);
-  padding:20px 24px;display:grid;grid-template-columns:220px 1fr;gap:20px;align-items:baseline;
-  transition:border-color .25s,background .25s;
-}
-.cap-row:hover{border-color:var(--border-hi);background:var(--surface-hi)}
-.cap-row h3{font-size:16px;font-weight:600;letter-spacing:-0.015em}
-.cap-row p{color:var(--ink-dim);font-size:14.5px;line-height:1.55}
-@media (max-width:900px){
-  .cap-grid{grid-template-columns:1fr}
-  .cap-featured{padding:28px 24px}
-  .cap-featured .cap-link{padding-top:22px}
-  .cap-row{grid-template-columns:1fr;gap:6px;padding:18px 20px}
+
+/* ═══════════════════ Integration chips ═══════════════════ */
+.stack-line{margin-top:52px;padding-top:30px;border-top:1px solid var(--border)}
+.stack-line > p{font-size:14px;color:var(--ink-mute);margin-bottom:16px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips span{
+  font-family:'Geist Mono',monospace;font-size:12px;color:var(--ink-dim);
+  padding:8px 15px;border:1px solid var(--border);border-radius:100px;background:var(--surface);
 }
 
 /* ═══════════════════ How it works ═══════════════════ */
@@ -395,16 +385,14 @@ h2.big .accent{color:var(--lime)}
 }
 
 /* ═══════════════════ FAQ ═══════════════════ */
-.faq-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:52px}
+.faq-grid{display:grid;gap:0;margin-top:36px;max-width:860px;border-top:1px solid var(--border-hi)}
 .faq-item{
-  border:1px solid var(--border);border-radius:var(--r-card);
-  background:var(--surface);padding:26px 28px;
-  transition:border-color .25s;
+  display:grid;grid-template-columns:1fr 1.2fr;gap:28px;align-items:baseline;
+  padding:22px 0;border-bottom:1px solid var(--border);
 }
-.faq-item:hover{border-color:var(--border-hi)}
-.faq-item h3{font-size:16.5px;font-weight:600;letter-spacing:-0.015em;margin-bottom:10px;line-height:1.35}
+.faq-item h3{font-size:16px;font-weight:600;letter-spacing:-0.015em;line-height:1.4}
 .faq-item p{color:var(--ink-dim);font-size:14.5px;line-height:1.6}
-@media (max-width:820px){.faq-grid{grid-template-columns:1fr}}
+@media (max-width:720px){.faq-item{grid-template-columns:1fr;gap:6px;padding:18px 0}}
 
 /* ═══════════════════ Contact ═══════════════════ */
 .tz-label{color:var(--lime)}
@@ -631,7 +619,7 @@ input,textarea,select{font-size:16px}
       <div class="hero-copy">
         <h1 class="display">The work you repeat,<br /><span class="accent">running itself.</span></h1>
         <p class="lede">
-          Custom AI pipelines that watch your sources, extract what matters, and file it where your team works.
+          Custom AI workflows, built into the tools your team already uses.
         </p>
         <div class="cta-row">
           <a href="#contact" class="btn btn-lg">Book a call
@@ -643,7 +631,7 @@ input,textarea,select{font-size:16px}
 
       <div class="hero-visual">
         <div class="spec-card" aria-label="Example pipeline configuration">
-          <div class="spec-head"><span class="k">pipeline</span><span>representative example</span></div>
+          <div class="spec-head"><span class="k">workflow</span><span>representative example</span></div>
           <div class="spec-body">
             <div class="spec-row"><span class="key">trigger</span><span class="val">every weekday, 07:00</span></div>
             <div class="spec-row"><span class="key">sources</span><span class="val">14 newsletters, 3 registries, 1 shared inbox</span></div>
@@ -664,7 +652,7 @@ input,textarea,select{font-size:16px}
       <div class="case-copy">
         <img class="case-logo" src="/radicle-growth-logo.png" alt="Radicle Growth logo" />
         <h2>Radicle Growth runs its deal flow on RennerFlow.</h2>
-        <p>The ag and foodtech VC runs two pipelines: one watches their sources, one processes whatever the team forwards. Both write straight into their CRM.</p>
+        <p>The ag and foodtech VC runs two workflows: one watches their sources, one processes whatever the team forwards. Both write straight into their CRM.</p>
         <div class="case-ref">Reference call available on request. <a href="https://radicle.vc" target="_blank" rel="noopener">radicle.vc</a></div>
       </div>
       <div class="case-stat">
@@ -685,43 +673,31 @@ input,textarea,select{font-size:16px}
   <div class="wrap">
     <div class="section-intro reveal">
       <h2 class="big">Proven on deal flow. Built for <span class="accent">any workflow.</span></h2>
-      <p>If it repeats every week, it can run as a pipeline.</p>
     </div>
-    <div class="cap-grid reveal-stagger">
-      <div class="cap-featured">
-        <h3>Deal sourcing for investment firms</h3>
-        <p>For venture funds, family offices, and private capital. In production today.</p>
-        <ul class="cap-includes">
-          <li>scheduled source monitoring</li>
-          <li>team forwarding inbox</li>
-          <li>enrichment + scoring</li>
-          <li>direct CRM submission</li>
-        </ul>
-        <a class="cap-link" href="#work">Read the case study
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-        </a>
+    <div class="flow-table reveal-stagger">
+      <div class="flow-row">
+        <h3>Deal flow</h3>
+        <div class="io">newsletters + registries + inbox<span class="arr">&rarr;</span>CRM rows</div>
       </div>
-      <div class="cap-list">
-        <div class="cap-row">
-          <h3>Media and press lists</h3>
-          <p>Journalist, podcast, and partner lists from live sources.</p>
-        </div>
-        <div class="cap-row">
-          <h3>Market monitoring</h3>
-          <p>Competitors, filings, and launches into a weekly brief.</p>
-        </div>
-        <div class="cap-row">
-          <h3>Research briefs</h3>
-          <p>Scattered sources into one digest, on schedule.</p>
-        </div>
-        <div class="cap-row">
-          <h3>Inbox to system of record</h3>
-          <p>A shared inbox into clean CRM rows. No copy-paste.</p>
-        </div>
-        <div class="cap-row">
-          <h3>Recurring reports</h3>
-          <p>The same weekly report, assembled without you.</p>
-        </div>
+      <div class="flow-row">
+        <h3>Media lists</h3>
+        <div class="io">podcasts + press + socials<span class="arr">&rarr;</span>client media list</div>
+      </div>
+      <div class="flow-row">
+        <h3>Market monitoring</h3>
+        <div class="io">competitor sites + filings<span class="arr">&rarr;</span>weekly brief</div>
+      </div>
+      <div class="flow-row">
+        <h3>Research</h3>
+        <div class="io">scattered sources<span class="arr">&rarr;</span>one digest</div>
+      </div>
+      <div class="flow-row">
+        <h3>Inbox triage</h3>
+        <div class="io">shared inbox<span class="arr">&rarr;</span>system of record</div>
+      </div>
+      <div class="flow-row">
+        <h3>Reporting</h3>
+        <div class="io">five tabs + two tools<span class="arr">&rarr;</span>one report</div>
       </div>
     </div>
   </div>
@@ -732,24 +708,29 @@ input,textarea,select{font-size:16px}
   <div class="wrap">
     <div class="section-intro reveal">
       <h2 class="big">Signal in, <span class="accent">structure out.</span></h2>
-      <p>Four stages, on your schedule, with an audit trail.</p>
     </div>
     <div class="how-grid reveal-stagger">
       <div class="how-stage">
         <h3>Watch</h3>
-        <p>Your sources and a forwarding inbox, monitored on a schedule.</p>
+        <p>Your sources, on a schedule.</p>
       </div>
       <div class="how-stage">
         <h3>Extract</h3>
-        <p>Every signal parsed into structured fields: prose, PDFs, tables, screenshots.</p>
+        <p>Prose, PDFs, tables, screenshots.</p>
       </div>
       <div class="how-stage">
         <h3>Enrich</h3>
-        <p>Records completed against your taxonomy: classification, contacts, scoring.</p>
+        <p>Against your taxonomy.</p>
       </div>
       <div class="how-stage">
         <h3>File</h3>
-        <p>Clean rows in your CRM or sheet, deduplicated.</p>
+        <p>Clean rows, deduplicated.</p>
+      </div>
+    </div>
+    <div class="stack-line reveal">
+      <p>Built into the tools you already run.</p>
+      <div class="chips">
+        <span>Gmail</span><span>Outlook</span><span>Salesforce</span><span>HubSpot</span><span>Affinity</span><span>Zoho</span><span>Airtable</span><span>Google Sheets</span><span>Notion</span><span>Slack</span><span>custom webhooks</span>
       </div>
     </div>
   </div>
@@ -761,12 +742,11 @@ input,textarea,select{font-size:16px}
     <div class="email-grid">
       <div class="email-content reveal">
         <h2>Forward it. <span class="accent">Done.</span></h2>
-        <p>Memos, newsletters, intros: most workflows already arrive by email. Your team forwards them to a dedicated address and the pipeline does the rest.</p>
-        <p>No uploading, no tagging, no review queue.</p>
+        <p>Your team forwards email like it already does. The workflow does the rest.</p>
       </div>
 
       <div class="inbox reveal" aria-label="Example of forwarded email becoming CRM records">
-        <div class="hdr">deals@your-firm.rennerflow.com</div>
+        <div class="hdr">forward@your-firm.rennerflow.com</div>
 
         <div class="email">
           <div class="from"><span class="name">Partner, Peer Fund</span> <span class="t">09:42</span></div>
@@ -811,35 +791,30 @@ input,textarea,select{font-size:16px}
   <div class="wrap">
     <div class="section-intro reveal">
       <h2 class="big">A clear path from <span class="accent">scope to live.</span></h2>
-      <p>Four steps, every engagement.</p>
     </div>
     <div class="process-list reveal-stagger">
       <div class="process-step">
         <div class="no"><span>01 / Scope</span><span class="dur">about two weeks</span></div>
         <div>
-          <h3>Run it by hand.</h3>
-          <p>I run your workflow manually first. The pipeline gets built on real domain knowledge, not a checklist.</p>
+          <h3>I run your workflow by hand first.</h3>
         </div>
       </div>
       <div class="process-step">
         <div class="no"><span>02 / Build</span><span class="dur">about two weeks</span></div>
         <div>
-          <h3>Configure the pipeline.</h3>
-          <p>Sources integrated, enrichment tuned, CRM mapping validated. Async check-ins, no standups.</p>
+          <h3>It gets built into your existing systems.</h3>
         </div>
       </div>
       <div class="process-step">
         <div class="no"><span>03 / Audit</span><span class="dur">about two weeks</span></div>
         <div>
-          <h3>Review the first 100 records.</h3>
-          <p>We audit the first hundred outputs together and fix edge cases before it runs alone.</p>
+          <h3>We review the first 100 outputs together.</h3>
         </div>
       </div>
       <div class="process-step">
         <div class="no"><span>04 / Ship</span><span class="dur">ongoing</span></div>
         <div>
-          <h3>Live and maintained.</h3>
-          <p>Monitoring, source changes, schema updates, breakages: covered.</p>
+          <h3>Live, monitored, maintained.</h3>
         </div>
       </div>
     </div>
@@ -855,23 +830,19 @@ input,textarea,select{font-size:16px}
     <div class="faq-grid reveal-stagger">
       <div class="faq-item">
         <h3>Is this only for investment firms?</h3>
-        <p>No. Deal sourcing is where it's proven, but the same architecture runs media lists, monitoring, briefs, triage, and reporting.</p>
+        <p>No. Deal flow is where it's proven; the same system runs any recurring workflow.</p>
       </div>
       <div class="faq-item">
-        <h3>How is this different from Harmonic, Specter, or Affinity?</h3>
-        <p>Those index a fixed universe. RennerFlow is built for your firm: your sources, your taxonomy, your CRM. Most clients run both.</p>
-      </div>
-      <div class="faq-item">
-        <h3>Which tools do you write into?</h3>
-        <p>Anything with an API: Salesforce, HubSpot, Zoho, Affinity, Airtable, Sheets, Notion, Slack, custom webhooks.</p>
+        <h3>Why not an off-the-shelf tool?</h3>
+        <p>Off-the-shelf tools give you another interface to work in. This runs inside the ones you already use.</p>
       </div>
       <div class="faq-item">
         <h3>How long until it is live?</h3>
-        <p>Three to five weeks from scoping call to first live run. Firm timeline after the call.</p>
+        <p>Three to five weeks from scoping call to first live run.</p>
       </div>
       <div class="faq-item">
         <h3>What about data privacy?</h3>
-        <p>Dedicated infrastructure per client, Gmail OAuth for email. You can also host it in your own cloud.</p>
+        <p>Dedicated infrastructure per client. Or host it in your own cloud.</p>
       </div>
       <div class="faq-item">
         <h3>Who is already using this?</h3>
@@ -885,7 +856,7 @@ input,textarea,select{font-size:16px}
 <section id="contact">
   <div class="wrap">
     <div class="section-intro reveal">
-      <h2 class="big">Scope a pipeline <span class="accent">for your team.</span></h2>
+      <h2 class="big">Scope a workflow <span class="accent">for your team.</span></h2>
       <p>30 minutes, Google Meet. Times shown in <span id="bk-tz-label" class="tz-label">your local timezone</span>.</p>
     </div>
 
