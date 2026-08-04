@@ -142,8 +142,12 @@ nav.top{
   transform-origin:50% 0;
   transition:transform .45s var(--ease),top .45s var(--ease),background .4s var(--ease),border-color .4s var(--ease);
 }
-nav.top.lg{backdrop-filter:blur(4px) saturate(160%) url(#lg-dist)}
+nav.top.lg{
+  backdrop-filter:blur(1.5px) saturate(175%) url(#lg-dist);
+  background:linear-gradient(135deg,rgba(255,255,255,0.32),rgba(255,255,255,0.12));
+}
 nav.top.scrolled{background:linear-gradient(135deg,rgba(255,255,255,0.72),rgba(255,255,255,0.45))}
+nav.top.lg.scrolled{background:linear-gradient(135deg,rgba(255,255,255,0.5),rgba(255,255,255,0.28))}
 nav.top.compact{transform:translateX(-50%) scale(0.93);top:10px}
 .brand{display:flex;align-items:center;gap:10px;font-weight:600;font-size:17px;letter-spacing:-0.02em}
 .brand .mark{width:26px;height:26px;flex-shrink:0}
@@ -554,11 +558,13 @@ input,textarea,select{font-size:16px}
 <a class="skip-link" href="#main">Skip to content</a>
 
 <!-- Liquid-glass edge refraction (web approximation of iOS liquid glass, Chromium only).
-     Displacement map: neutral #808080 center = no shift; R/G edge ramps bend the backdrop. -->
+     The displacement map is generated at runtime: a signed-distance-field of the pill where
+     pixels near the rim sample outward along the surface normal, so content compresses
+     toward the middle as it approaches the edge, radially around the rounded corners. -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <filter id="lg-dist" x="-15%" y="-15%" width="130%" height="130%" color-interpolation-filters="sRGB">
-    <feImage href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1100 64'><defs><linearGradient id='r' x1='0' y1='0' x2='1' y2='0'><stop offset='0' stop-color='%23000'/><stop offset='1' stop-color='%23f00'/></linearGradient><linearGradient id='g' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='%23000'/><stop offset='1' stop-color='%230f0'/></linearGradient><filter id='b' x='-50%25' y='-50%25' width='200%25' height='200%25'><feGaussianBlur stdDeviation='6'/></filter></defs><rect width='1100' height='64' fill='url(%23r)'/><rect width='1100' height='64' fill='url(%23g)' style='mix-blend-mode:screen'/><rect x='12' y='12' width='1076' height='40' rx='20' fill='%23808080' filter='url(%23b)'/></svg>" x="0" y="0" width="1100" height="64" preserveAspectRatio="none" result="map"/>
-    <feDisplacementMap in="SourceGraphic" in2="map" scale="52" xChannelSelector="R" yChannelSelector="G"/>
+    <feImage x="0" y="0" width="1100" height="64" preserveAspectRatio="none" result="map"/>
+    <feDisplacementMap in="SourceGraphic" in2="map" scale="34" xChannelSelector="R" yChannelSelector="G"/>
   </filter>
 </svg>
 
@@ -852,12 +858,52 @@ onScroll();
   if (!chromium || !CSS.supports('backdrop-filter', 'url(#lg-dist)')) return;
   const fe = document.querySelector('#lg-dist feImage');
   if (!fe) return;
+
+  // SDF displacement map for a pill: near the rim, sample outward along the
+  // surface normal (content appears pulled toward the middle). The normal
+  // rotates around the corner arcs, so corners refract radially.
+  const buildMap = (w, h) => {
+    const c = document.createElement('canvas');
+    c.width = w; c.height = h;
+    const ctx = c.getContext('2d');
+    const img = ctx.createImageData(w, h);
+    const r = h / 2;
+    const band = Math.min(26, r);
+    const cy = h / 2;
+    for (let y = 0; y < h; y++){
+      for (let x = 0; x < w; x++){
+        const sx = Math.min(Math.max(x, r), w - r);
+        const dx = x - sx, dy = y - cy;
+        const distC = Math.hypot(dx, dy);
+        const d = r - distC;
+        let ox = 0, oy = 0;
+        if (d < band){
+          const t = Math.min(1, Math.max(0, 1 - d / band));
+          const mag = t * t;
+          const nl = distC || 1;
+          ox = (dx / nl) * mag;
+          oy = (dy / nl) * mag;
+        }
+        const i = (y * w + x) * 4;
+        img.data[i]     = 128 + Math.round(ox * 127);
+        img.data[i + 1] = 128 + Math.round(oy * 127);
+        img.data[i + 2] = 128;
+        img.data[i + 3] = 255;
+      }
+    }
+    ctx.putImageData(img, 0, 0);
+    return c.toDataURL();
+  };
+
   const fit = () => {
-    fe.setAttribute('width', nav.offsetWidth);
-    fe.setAttribute('height', nav.offsetHeight);
+    const w = nav.offsetWidth, h = nav.offsetHeight;
+    fe.setAttribute('width', w);
+    fe.setAttribute('height', h);
+    fe.setAttribute('href', buildMap(w, h));
   };
   fit();
-  window.addEventListener('resize', fit);
+  let rT;
+  window.addEventListener('resize', () => { clearTimeout(rT); rT = setTimeout(fit, 150); });
   nav.classList.add('lg');
 })();
 
