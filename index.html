@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#0C0D0A" />
 <meta name="description" content="RennerFlow builds custom AI workflows that take over repeat work, inside the tools your team already uses. 10 analyst hours a week saved at Radicle Growth." />
 <meta property="og:title" content="RennerFlow · Custom AI workflows for the work you repeat" />
 <meta property="og:description" content="The work you repeat, running itself. 10 analyst hours a week saved at Radicle Growth." />
@@ -293,6 +294,8 @@ h2.big .accent{color:var(--lime)}
   transition:background .2s;
 }
 .flow-row:hover{background:var(--surface)}
+.flow-row .arr{display:inline-block;transition:transform .25s var(--ease)}
+.flow-row:hover .arr{transform:translateX(4px)}
 .flow-row h3{font-size:16px;font-weight:600;letter-spacing:-0.015em}
 .flow-row h3 .live{
   font-family:'Geist Mono',monospace;font-size:10px;font-weight:400;color:var(--lime);
@@ -585,7 +588,7 @@ input,textarea,select{font-size:16px}
         <div class="case-ref">Reference call available on request. <a href="https://radicle.vc" target="_blank" rel="noopener">radicle.vc</a></div>
       </div>
       <div class="case-stat">
-        <div class="n">10</div>
+        <div class="n" id="stat-n" data-target="10">0</div>
         <div class="lbl">analyst hours saved every week</div>
         <ul class="case-facts">
           <li>in production since April 2026</li>
@@ -826,6 +829,29 @@ const io = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
 }, {threshold: 0.14, rootMargin: '0px 0px -40px 0px'});
 document.querySelectorAll('.reveal, .reveal-stagger').forEach(el => io.observe(el));
+
+// ───── Stat count-up ─────
+(() => {
+  const el = document.getElementById('stat-n');
+  if (!el) return;
+  const target = parseInt(el.dataset.target, 10);
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    el.textContent = target;
+    return;
+  }
+  const obs = new IntersectionObserver((entries) => {
+    if (!entries[0].isIntersecting) return;
+    obs.disconnect();
+    const t0 = performance.now(), dur = 900;
+    const tick = (t) => {
+      const p = Math.min((t - t0) / dur, 1);
+      el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3)));
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }, {threshold: 0.5});
+  obs.observe(el);
+})();
 
 // ═══════════════════════════════════════════════════════════════════
 // Booking widget
