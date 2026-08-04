@@ -22,8 +22,8 @@
   html, body { width: 1200px; height: 630px; overflow: hidden; }
   body {
     font-family: 'Geist', system-ui, -apple-system, sans-serif;
-    background: #0C0D0A;
-    color: #F2F4EC;
+    background: #F6F7F1;
+    color: #171A0F;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -34,7 +34,7 @@
   .glow {
     position: absolute; border-radius: 50%; filter: blur(110px); pointer-events: none;
     width: 640px; height: 640px; top: -300px; left: -180px;
-    background: radial-gradient(circle, #C4FF47 0%, transparent 65%); opacity: 0.16;
+    background: radial-gradient(circle, #C4FF47 0%, transparent 65%); opacity: 0.3;
   }
   .brand { display: flex; align-items: center; gap: 16px; margin-bottom: 52px; position: relative; }
   .brand svg { width: 50px; height: 50px; }
@@ -46,16 +46,16 @@
     max-width: 980px; position: relative; margin-bottom: 40px;
   }
   .sub {
-    font-size: 26px; color: rgba(242,244,236,0.64); line-height: 1.45;
+    font-size: 26px; color: rgba(23,26,15,0.66); line-height: 1.45;
     max-width: 900px; position: relative;
   }
   .stat {
     position: absolute; bottom: 56px; left: 90px; right: 90px;
     display: flex; align-items: baseline; gap: 14px;
-    font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 18px; color: rgba(242,244,236,0.42);
-    border-top: 1px solid rgba(242,244,236,0.12); padding-top: 26px;
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 18px; color: rgba(23,26,15,0.5);
+    border-top: 1px solid rgba(23,26,15,0.15); padding-top: 26px;
   }
-  .stat b { color: #C4FF47; font-weight: 500; }
+  .stat b { color: #4F7A00; font-weight: 600; }
 </style>
 </head>
 <body>
@@ -68,7 +68,7 @@
         <path d="M10 20L26 20L28 25L12 25Z"/>
       </g>
     </svg>
-    <span class="name">Renner<span class="flow">Flow</span></span>
+    <span class="name">Renner<span class="flow" style="color:#4F7A00">Flow</span></span>
   </div>
   <h1>The work you repeat, running itself.</h1>
   <div class="sub">Custom AI workflows, built into the tools your team already uses.</div>
