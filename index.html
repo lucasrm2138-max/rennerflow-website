@@ -257,6 +257,14 @@ h1.display .accent{color:var(--lime)}
   .spec-body{padding:6px 18px 12px}
   .run-row{grid-template-columns:64px 1fr auto;gap:10px;font-size:12px}
 }
+.spec-proof{
+  margin-top:14px;font-size:13px;color:var(--ink-mute);text-align:right;
+}
+.spec-proof a{color:var(--ink-dim);border-bottom:1px dotted var(--ink-mute);transition:color .2s,border-color .2s}
+.spec-proof a:hover{color:var(--lime);border-color:var(--lime)}
+@media (min-width:961px){
+  .hero-visual{margin-right:-56px}
+}
 
 /* ═══════════════════ Section heads ═══════════════════ */
 h2.big{font-size:clamp(32px,4.6vw,56px);font-weight:600;line-height:1.06;letter-spacing:-0.03em;text-wrap:balance}
@@ -587,6 +595,7 @@ input,textarea,select{font-size:16px}
             <div class="run-row final"><span class="t"></span><span class="msg">your part</span><span class="st lime">nothing</span></div>
           </div>
         </div>
+        <div class="spec-proof">In production at <a href="#work">Radicle Growth</a></div>
       </div>
     </div>
   </div>
@@ -763,7 +772,7 @@ input,textarea,select{font-size:16px}
     </div>
 
     <div class="contact-sub">
-      Prefer email? <a href="mailto:consultation@rennerflow.com?subject=RennerFlow%20scoping%20call">consultation@rennerflow.com</a>
+      Prefer email? <a href="mailto:consultation@rennerflow.com?subject=RennerFlow%20scoping%20call">consultation@rennerflow.com</a> · Reference call from Radicle Growth on request.
     </div>
   </div>
 </section>
