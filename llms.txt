@@ -1,60 +1,56 @@
 # RennerFlow
 
-> RennerFlow provides structured, detailed content about custom AI-powered deal sourcing pipelines tailored for investment firms, including workflows, features, and technical integrations.
+> RennerFlow builds custom AI pipelines for recurring workflows: the system watches a client's sources, extracts what matters, enriches each record against the client's taxonomy, and files clean rows into the client's CRM, sheet, or system of record.
 
-RennerFlow specializes in building and configuring AI pipelines that automate deal sourcing, enrichment, deduplication, and CRM integration for venture capital, family offices, and private equity firms. Its content offers valuable insights into pipeline automation, source management, data enrichment, and CRM workflows. This documentation is useful for training language models to understand deal sourcing processes, AI automation strategies, and how to customize data pipelines for investment operations.
+RennerFlow is proven in production on deal sourcing for investment firms and runs the same architecture for any recurring workflow: media and press list building, market monitoring, research briefs, inbox triage, and recurring report assembly. Its content offers insight into pipeline automation, source management, data enrichment, and CRM workflows.
+
+## Case Study
+
+- Radicle Growth, an ag and foodtech venture fund, runs its deal flow on RennerFlow.
+- Two pipelines in production since April 2026: scheduled source monitoring and a dedicated team forwarding inbox.
+- Result: about 10 analyst hours saved every week, with zero manual CRM entry.
+- Reference call available on request.
 
 ## Core Content
 
+- [Case study](#work)
+- [Capabilities](#capabilities)
 - [How it works](#how)
-- [Features](#features)
+- [Email forwarding](#email)
 - [Process overview](#process)
 - [FAQ](#faq)
 - [Book a call](#contact)
-- [Email contact](#email)
 
-Links:
-- [How it works](#how)
-- [Features](#features)
-- [Process](#process)
-- [FAQ](#faq)
-- [Book a call](#contact)
-- [Email contact](#email)
+## Workflow Automation
 
-## Deal Sourcing Automation
-
-- Multi-stage process: discover, extract, enrich, submit.
-- Automated ingestion of emails, newsletters, press articles, and forwarded memos.
-- Deduplication, validation, and structured submission into CRMs.
-- Integration with popular CRMs like Salesforce, HubSpot, Zoho, and custom webhooks.
-- Handling of multi-deal newsletters, founder intros, press releases, and PDFs.
+- Four-stage pipeline: watch, extract, enrich, file.
+- Automated ingestion of emails, newsletters, press articles, registries, feeds, and forwarded memos.
+- Deduplication, validation, and structured submission into the client's system of record.
+- Integration with Salesforce, HubSpot, Zoho, Affinity, Airtable, Pipedrive, Google Sheets, Notion, Slack, and custom webhooks.
+- Handling of multi-deal newsletters, founder intros, press releases, and PDF decks.
 - Customizable source integration, including regional media and company blogs.
 
 ## Data Enrichment & Validation
 
-- Custom classification aligned with client's taxonomy.
-- Company and founder lookup via verified LinkedIn.
-- Multi-step verification processes for deal validity.
+- Custom classification aligned with the client's taxonomy.
+- Company and contact lookup against verified sources.
+- Multi-step verification for record validity.
 - Flagging low-confidence data rather than guessing wrong.
 - Full audit trail for all data modifications and submissions.
 
+## Engagement Process
+
+- Scope: the workflow is run by hand for about two weeks to learn the client's sources, taxonomy, and tools.
+- Build: sources integrated, enrichment tuned, output mapping validated, about two weeks.
+- Audit: the first 100 outputs are reviewed together before the system runs alone, about two weeks.
+- Ship: live in production with ongoing maintenance covering monitoring, source changes, and schema updates.
+
 ## Technical Details
 
-- Pipeline configuration tailored to the client's CRM schema and industry taxonomy.
-- Use of AI and licensed tools for data extraction and verification.
-- Infrastructure deployment options, including client-hosted pipelines for enhanced privacy.
-- Ongoing maintenance, source updates, and system monitoring.
+- Pipeline configuration tailored to the client's schema and industry taxonomy.
+- Infrastructure dedicated per client, with an option to host inside the client's own cloud account.
+- Email processing via Gmail OAuth; no IMAP credentials stored.
 
-## Resources
+## Contact
 
-- [How it works](#how) — Explanation of pipeline stages in detail.
-- [Features](#features) — Capabilities and customizable options.
-- [Process](#process) — Step-by-step guide from scoping to ongoing maintenance.
-- [FAQ](#faq) — Common questions about implementation and privacy.
-- [Book a call](#contact) — Scheduling a scoping session.
-
-## Optional
-
-- Case studies or client testimonials (not currently included but recommended for future content).
-- Additional integrations with alternative CRMs or custom systems.
-- Technical documentation for API and webhook setup.
+- [Book a call](#contact) or email consultation@rennerflow.com.
