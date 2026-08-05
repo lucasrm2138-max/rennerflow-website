@@ -143,7 +143,7 @@ nav.top{
   transition:transform .45s var(--ease),top .45s var(--ease),background .4s var(--ease),border-color .4s var(--ease);
 }
 nav.top.lg{
-  backdrop-filter:url(#lg-dist);
+  backdrop-filter:blur(2.5px) saturate(155%) url(#lg-dist);
   background:transparent;
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,0.4),
@@ -555,25 +555,39 @@ input,textarea,select{font-size:16px}
   <filter id="lg-dist" x="-15%" y="-15%" width="130%" height="130%" color-interpolation-filters="sRGB">
     <feImage x="0" y="0" width="1100" height="64" preserveAspectRatio="none" result="map"/>
     <feImage x="0" y="0" width="1100" height="64" preserveAspectRatio="none" result="ring"/>
+    <feImage x="0" y="0" width="1100" height="64" preserveAspectRatio="none" result="mapInner"/>
     <feDisplacementMap in="SourceGraphic" in2="map" scale="70" xChannelSelector="R" yChannelSelector="G" result="disp"/>
     <feGaussianBlur in="disp" stdDeviation="1.6" result="dispBlur"/>
+    <feDisplacementMap in="SourceGraphic" in2="mapInner" scale="70" xChannelSelector="R" yChannelSelector="G" result="dispIn"/>
+    <feGaussianBlur in="dispIn" stdDeviation="1.2" result="dispInB"/>
+    <feColorMatrix in="dispInB" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.22 0" result="innerFaint"/>
+    <feComposite in="innerFaint" in2="ring" operator="in" result="innerTmp"/>
+    <feComposite in="innerTmp" in2="ring" operator="in" result="innerEdge"/>
     <feComposite in="SourceGraphic" in2="ring" operator="out" result="centerPart"/>
     <feComposite in="dispBlur" in2="ring" operator="in" result="edgePart"/>
     <feMerge>
       <feMergeNode in="centerPart"/>
       <feMergeNode in="edgePart"/>
+      <feMergeNode in="innerEdge"/>
     </feMerge>
   </filter>
   <filter id="lg-item" x="-15%" y="-15%" width="130%" height="130%" color-interpolation-filters="sRGB">
     <feImage x="0" y="0" width="360" height="48" preserveAspectRatio="none" result="map"/>
     <feImage x="0" y="0" width="360" height="48" preserveAspectRatio="none" result="ring"/>
+    <feImage x="0" y="0" width="360" height="48" preserveAspectRatio="none" result="mapInner"/>
     <feDisplacementMap in="SourceGraphic" in2="map" scale="70" xChannelSelector="R" yChannelSelector="G" result="disp"/>
     <feGaussianBlur in="disp" stdDeviation="1.6" result="dispBlur"/>
+    <feDisplacementMap in="SourceGraphic" in2="mapInner" scale="70" xChannelSelector="R" yChannelSelector="G" result="dispIn"/>
+    <feGaussianBlur in="dispIn" stdDeviation="1.2" result="dispInB"/>
+    <feColorMatrix in="dispInB" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.22 0" result="innerFaint"/>
+    <feComposite in="innerFaint" in2="ring" operator="in" result="innerTmp"/>
+    <feComposite in="innerTmp" in2="ring" operator="in" result="innerEdge"/>
     <feComposite in="SourceGraphic" in2="ring" operator="out" result="centerPart"/>
     <feComposite in="dispBlur" in2="ring" operator="in" result="edgePart"/>
     <feMerge>
       <feMergeNode in="centerPart"/>
       <feMergeNode in="edgePart"/>
+      <feMergeNode in="innerEdge"/>
     </feMerge>
   </filter>
 </svg>
@@ -896,9 +910,9 @@ onScroll();
       c.width = w; c.height = h;
       return c;
     };
-    const cMap = mk(), cRing = mk();
-    const xMap = cMap.getContext('2d'), xRing = cRing.getContext('2d');
-    const iMap = xMap.createImageData(w, h), iRing = xRing.createImageData(w, h);
+    const cMap = mk(), cRing = mk(), cInner = mk();
+    const xMap = cMap.getContext('2d'), xRing = cRing.getContext('2d'), xInner = cInner.getContext('2d');
+    const iMap = xMap.createImageData(w, h), iRing = xRing.createImageData(w, h), iInner = xInner.createImageData(w, h);
     const band = Math.min(30, rad);
     for (let y = 0; y < h; y++){
       for (let x = 0; x < w; x++){
@@ -932,11 +946,25 @@ onScroll();
         iRing.data[i + 1] = 255;
         iRing.data[i + 2] = 255;
         iRing.data[i + 3] = Math.round(a * 255);
+        // Inner-reflection map: the outer sliver faintly samples interior
+        // content, so the rim keeps reflecting whatever sits mid-bar.
+        let ix = 0, iy = 0;
+        if (d >= 0 && d < 10){
+          const im = ((1 - d / 10) * 20) / 34.9;
+          const nl2 = distC || 1;
+          ix = -(dx / nl2) * Math.min(1, im);
+          iy = -(dy / nl2) * Math.min(1, im);
+        }
+        iInner.data[i]     = 128 + Math.round(ix * 127);
+        iInner.data[i + 1] = 128 + Math.round(iy * 127);
+        iInner.data[i + 2] = 128;
+        iInner.data[i + 3] = 255;
       }
     }
     xMap.putImageData(iMap, 0, 0);
     xRing.putImageData(iRing, 0, 0);
-    return [cMap.toDataURL(), cRing.toDataURL()];
+    xInner.putImageData(iInner, 0, 0);
+    return [cMap.toDataURL(), cRing.toDataURL(), cInner.toDataURL()];
   };
 
   const fitFilter = (filterId, el, rad) => {
@@ -944,13 +972,13 @@ onScroll();
     if (!imgs.length) return;
     const w = el.offsetWidth, h = el.offsetHeight;
     if (!w || !h) return;
-    const [mapURL, ringURL] = buildMaps(w, h, Math.min(rad, h / 2));
-    imgs[0].setAttribute('width', w);
-    imgs[0].setAttribute('height', h);
-    imgs[0].setAttribute('href', mapURL);
-    imgs[1].setAttribute('width', w);
-    imgs[1].setAttribute('height', h);
-    imgs[1].setAttribute('href', ringURL);
+    const [mapURL, ringURL, innerURL] = buildMaps(w, h, Math.min(rad, h / 2));
+    const urls = [mapURL, ringURL, innerURL];
+    imgs.forEach((im, i) => {
+      im.setAttribute('width', w);
+      im.setAttribute('height', h);
+      im.setAttribute('href', urls[i]);
+    });
   };
 
   const menuEl = document.getElementById('mobileMenu');
