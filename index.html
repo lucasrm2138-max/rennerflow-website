@@ -142,47 +142,6 @@ nav.top{
   transform-origin:50% 0;
   transition:transform .45s var(--ease),top .45s var(--ease),background .4s var(--ease),border-color .4s var(--ease);
 }
-nav.top.flg::before{
-  content:"";position:absolute;inset:0;border-radius:100px;pointer-events:none;
-  padding:7px;
-  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
-  -webkit-mask-composite:xor;mask-composite:exclude;
-  -webkit-backdrop-filter:blur(9px) saturate(170%) brightness(1.1);
-  backdrop-filter:blur(9px) saturate(170%) brightness(1.1);
-}
-.mobile-menu.flg a{
-  position:relative;
-  backdrop-filter:blur(12px) saturate(150%);-webkit-backdrop-filter:blur(12px) saturate(150%);
-  background:rgba(255,255,255,0.22);
-}
-.mobile-menu.flg a.mm-cta{background:linear-gradient(135deg,rgba(196,255,71,0.5),rgba(196,255,71,0.26))}
-.mobile-menu.flg a::before{
-  content:"";position:absolute;inset:0;border-radius:100px;pointer-events:none;
-  padding:5px;
-  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
-  -webkit-mask-composite:xor;mask-composite:exclude;
-  -webkit-backdrop-filter:blur(14px) saturate(170%) brightness(1.12);
-  backdrop-filter:blur(14px) saturate(170%) brightness(1.12);
-}
-/* WebKit clone-lens: hand-built refraction for engines without
-   backdrop displacement. Five synced page clones, masked into bands. */
-nav.top.clens{background:transparent}
-nav.top.clens .brand,nav.top.clens .nav-links,nav.top.clens .nav-toggle{position:relative;z-index:3}
-nav.top.clens{border-color:rgba(255,255,255,0.2)}
-nav.top.clens::after{
-  content:"";position:absolute;inset:0;border-radius:100px;pointer-events:none;z-index:2;
-  background:linear-gradient(135deg,rgba(255,255,255,0.07),rgba(255,255,255,0.02));
-}
-.lens{
-  position:absolute;inset:0;border-radius:100px;overflow:hidden;
-  pointer-events:none;z-index:0;background:var(--bg);
-}
-.lens-layer{position:absolute;inset:0;overflow:hidden}
-.lens-base{position:absolute;top:0;left:0;will-change:transform}
-.lens-clone{pointer-events:none}
-.lens-clone .reveal,.lens-clone .reveal-stagger>*,.lens-clone .hero-copy>*{
-  opacity:1 !important;transform:none !important;transition:none !important;animation:none !important;
-}
 nav.top.lg{
   backdrop-filter:blur(2.5px) saturate(155%) url(#lg-dist);
   background:transparent;
@@ -928,92 +887,7 @@ onScroll();
 (() => {
   const ua = navigator.userAgent;
   const chromium = ua.includes('Chrome') || ua.includes('Chromium') || ua.includes('Edg');
-  const forceClone = location.search.includes('lenstest');
-  if (forceClone || !chromium || !CSS.supports('backdrop-filter', 'url(#lg-dist)')){
-    const mm = document.getElementById('mobileMenu');
-    if (mm) mm.classList.add('flg');
-    // Hand-built lens: five synced clones of the page inside the bar.
-    const buildLens = () => {
-      const main = document.getElementById('main');
-      if (!main) { nav.classList.add('flg'); return; }
-      nav.classList.add('clens');
-      const lens = document.createElement('div');
-      lens.className = 'lens';
-      lens.setAttribute('aria-hidden', 'true');
-      // Piecewise-linear approximation of the lens curve, dense near the rim.
-      // s(d): source depth sampled for a pixel at depth d from the rim.
-      // Outermost zone slopes negative -> a true inverted mirror emerges.
-      const H = nav.offsetHeight;
-      const D = H / 2;
-      const sOf = (d) => {
-        const m = 5;
-        if (d < m) return -1.15 * d;                      // mirror about the rim
-        const offM = 2.15 * m;
-        const off = offM * Math.pow((D - d) / (D - m), 2); // pull decaying inward
-        return d - off;
-      };
-      const bounds = [0, 1, 2, 3, 4.5, 6, 8, 10.5, 13.5, 17, 21, 25.5, D];
-      const strips = [];
-      for (let i = 0; i < bounds.length - 1; i++) strips.push(['top', bounds[i], bounds[i + 1]]);
-      for (let i = 0; i < bounds.length - 1; i++) strips.push(['bot', bounds[i], bounds[i + 1]]);
-      const bases = [];
-      strips.forEach(([side, d0, d1]) => {
-        const layer = document.createElement('div');
-        layer.className = 'lens-layer';
-        // display/source correspondences in lens-local y
-        const disp0 = side === 'top' ? d0 : H - d0;
-        const disp1 = side === 'top' ? d1 : H - d1;
-        const src0  = side === 'top' ? sOf(d0) : H - sOf(d0);
-        const src1  = side === 'top' ? sOf(d1) : H - sOf(d1);
-        const A = (disp1 - disp0) / ((src1 - src0) || 0.0001);
-        const B = disp0 - A * src0;
-        layer.style.transform = 'translateY(' + B.toFixed(3) + 'px) scaleY(' + A.toFixed(4) + ')';
-        layer.style.transformOrigin = '50% 0';
-        const dm = (d0 + d1) / 2;
-        const blur = dm < 4 ? 1.4 : 2.4 + 1.0 * Math.pow(1 - dm / D, 1.2);
-        const bright = dm < 4 ? 1.16 : 1 + 0.08 * Math.pow(1 - dm / D, 2);
-        layer.style.filter = 'blur(' + blur.toFixed(2) + 'px) saturate(1.5) brightness(' + bright.toFixed(3) + ')';
-        const y0 = Math.min(disp0, disp1), y1 = Math.max(disp0, disp1);
-        const g = 'linear-gradient(to bottom,transparent ' + (y0 - 1).toFixed(1) + 'px,#000 ' + (y0 + 0.4).toFixed(1) + 'px,#000 ' + (y1 - 0.4).toFixed(1) + 'px,transparent ' + (y1 + 1).toFixed(1) + 'px)';
-        layer.style.webkitMaskImage = g;
-        layer.style.maskImage = g;
-        const base = document.createElement('div');
-        base.className = 'lens-base';
-        const clone = main.cloneNode(true);
-        clone.removeAttribute('id');
-        clone.querySelectorAll('[id]').forEach(el => el.removeAttribute('id'));
-        clone.classList.add('lens-clone');
-        clone.setAttribute('inert', '');
-        clone.setAttribute('aria-hidden', 'true');
-        base.appendChild(clone);
-        layer.appendChild(base);
-        lens.appendChild(layer);
-        bases.push(base);
-      });
-      nav.insertBefore(lens, nav.firstChild);
-      const width = () => {
-        lens.querySelectorAll('.lens-clone').forEach(c => { c.style.width = window.innerWidth + 'px'; });
-      };
-      width();
-      window.addEventListener('resize', width);
-      const sync = () => {
-        const r = nav.getBoundingClientRect();
-        const sc = (r.width / nav.offsetWidth) || 1;
-        const tx = -r.left / sc;
-        const ty = (-r.top - window.scrollY) / sc;
-        const t = 'translate(' + tx.toFixed(2) + 'px, ' + ty.toFixed(2) + 'px)';
-        bases.forEach(b => { b.style.transform = t; });
-        requestAnimationFrame(sync);
-      };
-      requestAnimationFrame(sync);
-    };
-    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
-      buildLens();
-    } else {
-      nav.classList.add('flg');
-    }
-    return;
-  }
+  if (!chromium || !CSS.supports('backdrop-filter', 'url(#lg-dist)')) return;
   const fe = document.querySelector('#lg-dist feImage');
   if (!fe) return;
 
