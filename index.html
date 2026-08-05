@@ -186,28 +186,46 @@ nav.top.compact{transform:translateX(-50%) scale(0.93);top:10px}
 .nav-toggle[aria-expanded="true"] span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
 
 .mobile-menu{
-  position:fixed;inset:0;z-index:95;
-  background:rgba(246,247,241,0.96);backdrop-filter:saturate(140%) blur(24px);-webkit-backdrop-filter:saturate(140%) blur(24px);
-  padding:92px 24px 48px;overflow-y:auto;
-  opacity:0;pointer-events:none;transition:opacity .3s var(--ease);
+  position:fixed;top:84px;left:50%;z-index:95;
+  width:calc(100% - 32px);max-width:1100px;
+  transform:translateX(-50%) translateY(-10px) scale(0.98);transform-origin:50% 0;
+  border-radius:28px;padding:10px;
+  background:linear-gradient(135deg,rgba(255,255,255,0.18),rgba(255,255,255,0.06));
+  backdrop-filter:saturate(150%) blur(3px);-webkit-backdrop-filter:saturate(150%) blur(3px);
+  border:1px solid rgba(255,255,255,0.6);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.4),
+    inset 0 -1px 0 rgba(255,255,255,0.1),
+    0 18px 40px -20px rgba(23,26,15,0.28);
+  opacity:0;pointer-events:none;
+  transition:opacity .28s var(--ease),transform .38s var(--ease);
 }
-.mobile-menu.open{opacity:1;pointer-events:auto}
-.mobile-menu-inner{display:flex;flex-direction:column;gap:10px;max-width:480px;margin:0 auto;width:100%}
+.mobile-menu.lg{backdrop-filter:url(#lg-menu);background:transparent}
+.mobile-menu.open{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(0) scale(1)}
+.mobile-menu-inner{display:flex;flex-direction:column;gap:2px;width:100%}
 .mobile-menu a{
-  padding:17px 22px;border-radius:var(--r-card);border:1px solid var(--border);
-  font-size:17px;font-weight:500;color:var(--ink);background:var(--surface);
+  padding:14px 18px;border-radius:18px;
+  font-size:16px;font-weight:500;color:var(--ink);
   display:flex;align-items:center;justify-content:space-between;gap:8px;
-  transition:background .2s,border-color .2s;
+  transition:background .2s;
+  opacity:0;transform:translateY(-5px);
+  text-shadow:0 1px 10px rgba(246,247,241,0.95),0 0 3px rgba(246,247,241,0.9);
 }
-.mobile-menu a:hover{background:var(--surface-hi);border-color:var(--border-hi)}
-.mobile-menu a.mm-cta{background:var(--lime);color:var(--lime-ink);border:none;margin-top:12px;justify-content:center;border-radius:100px}
+.mobile-menu.open a{opacity:1;transform:none;transition:background .2s,opacity .3s var(--ease),transform .3s var(--ease)}
+.mobile-menu.open a:nth-child(1){transition-delay:0s,.05s,.05s}
+.mobile-menu.open a:nth-child(2){transition-delay:0s,.09s,.09s}
+.mobile-menu.open a:nth-child(3){transition-delay:0s,.13s,.13s}
+.mobile-menu.open a:nth-child(4){transition-delay:0s,.17s,.17s}
+.mobile-menu.open a:nth-child(5){transition-delay:0s,.21s,.21s}
+.mobile-menu a:hover{background:rgba(255,255,255,0.45)}
+.mobile-menu a.mm-cta{background:var(--lime);color:var(--lime-ink);margin-top:8px;justify-content:center;border-radius:100px}
 .mobile-menu a.mm-cta:hover{background:#D2FF6E}
 .mobile-menu a.mm-email{
-  background:transparent;border:1px dashed var(--border);color:var(--ink-dim);
-  font-size:13px;font-weight:400;justify-content:center;margin-top:8px;
+  color:var(--ink-dim);
+  font-size:13px;font-weight:400;justify-content:center;
   font-family:'Geist Mono',monospace;letter-spacing:0;
 }
-.mobile-menu a.mm-email:hover{color:var(--lime-text);border-color:var(--lime-line)}
+.mobile-menu a.mm-email:hover{color:var(--lime-text);background:transparent}
 
 @media (max-width:720px){
   .nav-toggle{display:flex}
@@ -578,6 +596,18 @@ input,textarea,select{font-size:16px}
       <feMergeNode in="edgePart"/>
     </feMerge>
   </filter>
+  <filter id="lg-menu" x="-15%" y="-15%" width="130%" height="130%" color-interpolation-filters="sRGB">
+    <feImage x="0" y="0" width="400" height="300" preserveAspectRatio="none" result="map"/>
+    <feImage x="0" y="0" width="400" height="300" preserveAspectRatio="none" result="ring"/>
+    <feDisplacementMap in="SourceGraphic" in2="map" scale="34" xChannelSelector="R" yChannelSelector="G" result="disp"/>
+    <feGaussianBlur in="disp" stdDeviation="1.6" result="dispBlur"/>
+    <feComposite in="SourceGraphic" in2="ring" operator="out" result="centerPart"/>
+    <feComposite in="dispBlur" in2="ring" operator="in" result="edgePart"/>
+    <feMerge>
+      <feMergeNode in="centerPart"/>
+      <feMergeNode in="edgePart"/>
+    </feMerge>
+  </filter>
 </svg>
 
 <div class="glow" aria-hidden="true"></div>
@@ -871,12 +901,12 @@ onScroll();
   const fe = document.querySelector('#lg-dist feImage');
   if (!fe) return;
 
-  // SDF maps for a pill. The displacement map: near the rim, sample outward
-  // along the surface normal (content appears pulled toward the middle), with
-  // the normal rotating around the corner arcs. The ring mask: alpha follows
-  // the same falloff, so only the rim band paints; the center stays fully
-  // transparent and the raw page shows through untouched.
-  const buildMaps = (w, h) => {
+  // SDF maps for a rounded rect (pill when rad = h/2). Displacement: near the
+  // rim, sample outward along the surface normal (content appears pulled
+  // toward the middle), the normal rotating around the corner arcs. Ring mask:
+  // alpha follows the same falloff so only the rim band paints; the raw page
+  // passes through the center untouched.
+  const buildMaps = (w, h, rad) => {
     const mk = () => {
       const c = document.createElement('canvas');
       c.width = w; c.height = h;
@@ -885,15 +915,14 @@ onScroll();
     const cMap = mk(), cRing = mk();
     const xMap = cMap.getContext('2d'), xRing = cRing.getContext('2d');
     const iMap = xMap.createImageData(w, h), iRing = xRing.createImageData(w, h);
-    const r = h / 2;
-    const band = Math.min(26, r);
-    const cy = h / 2;
+    const band = Math.min(26, rad);
     for (let y = 0; y < h; y++){
       for (let x = 0; x < w; x++){
-        const sx = Math.min(Math.max(x, r), w - r);
-        const dx = x - sx, dy = y - cy;
+        const sx = Math.min(Math.max(x, rad), w - rad);
+        const sy = Math.min(Math.max(y, rad), h - rad);
+        const dx = x - sx, dy = y - sy;
         const distC = Math.hypot(dx, dy);
-        const d = r - distC;
+        const d = rad - distC;
         let ox = 0, oy = 0, a = 0;
         if (d < band){
           const t = Math.min(1, Math.max(0, 1 - d / band));
@@ -919,21 +948,30 @@ onScroll();
     return [cMap.toDataURL(), cRing.toDataURL()];
   };
 
-  const feRing = document.querySelectorAll('#lg-dist feImage')[1];
+  const fitFilter = (filterId, el, rad) => {
+    const imgs = document.querySelectorAll('#' + filterId + ' feImage');
+    if (!imgs.length) return;
+    const w = el.offsetWidth, h = el.offsetHeight;
+    if (!w || !h) return;
+    const [mapURL, ringURL] = buildMaps(w, h, Math.min(rad, h / 2));
+    imgs[0].setAttribute('width', w);
+    imgs[0].setAttribute('height', h);
+    imgs[0].setAttribute('href', mapURL);
+    imgs[1].setAttribute('width', w);
+    imgs[1].setAttribute('height', h);
+    imgs[1].setAttribute('href', ringURL);
+  };
+
+  const menuEl = document.getElementById('mobileMenu');
   const fit = () => {
-    const w = nav.offsetWidth, h = nav.offsetHeight;
-    const [mapURL, ringURL] = buildMaps(w, h);
-    fe.setAttribute('width', w);
-    fe.setAttribute('height', h);
-    fe.setAttribute('href', mapURL);
-    feRing.setAttribute('width', w);
-    feRing.setAttribute('height', h);
-    feRing.setAttribute('href', ringURL);
+    fitFilter('lg-dist', nav, nav.offsetHeight / 2);
+    if (menuEl) fitFilter('lg-menu', menuEl, 28);
   };
   fit();
   let rT;
   window.addEventListener('resize', () => { clearTimeout(rT); rT = setTimeout(fit, 150); });
   nav.classList.add('lg');
+  if (menuEl) menuEl.classList.add('lg');
 })();
 
 // ───── Mobile menu ─────
@@ -946,13 +984,22 @@ onScroll();
     menu.classList.toggle('open', open);
     toggle.setAttribute('aria-expanded', open);
     menu.setAttribute('aria-hidden', !open);
-    document.body.style.overflow = open ? 'hidden' : '';
     toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
   };
 
   toggle.addEventListener('click', () => {
     setOpen(!menu.classList.contains('open'));
   });
+
+  // Close when clicking outside the dropdown, or on scroll
+  document.addEventListener('click', (e) => {
+    if (!menu.classList.contains('open')) return;
+    if (menu.contains(e.target) || toggle.contains(e.target)) return;
+    setOpen(false);
+  });
+  window.addEventListener('scroll', () => {
+    if (menu.classList.contains('open')) setOpen(false);
+  }, {passive: true});
 
   menu.querySelectorAll('[data-mm]').forEach(a => {
     a.addEventListener('click', () => setOpen(false));
