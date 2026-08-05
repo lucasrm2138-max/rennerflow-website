@@ -143,15 +143,15 @@ nav.top{
   transition:transform .45s var(--ease),top .45s var(--ease),background .4s var(--ease),border-color .4s var(--ease);
 }
 nav.top.lg{
-  backdrop-filter:blur(0.5px) saturate(160%) url(#lg-dist);
-  background:linear-gradient(135deg,rgba(255,255,255,0.05),rgba(255,255,255,0.01));
+  backdrop-filter:url(#lg-dist);
+  background:transparent;
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.45),
+    inset 0 1px 0 rgba(255,255,255,0.4),
     inset 0 -1px 0 rgba(255,255,255,0.1),
-    0 10px 28px -18px rgba(23,26,15,0.22);
+    0 10px 28px -20px rgba(23,26,15,0.2);
 }
 nav.top.scrolled{background:linear-gradient(135deg,rgba(255,255,255,0.72),rgba(255,255,255,0.45))}
-nav.top.lg.scrolled{background:linear-gradient(135deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))}
+nav.top.lg.scrolled{background:transparent}
 nav.top.compact{transform:translateX(-50%) scale(0.93);top:10px}
 .brand{display:flex;align-items:center;gap:10px;font-weight:600;font-size:17px;letter-spacing:-0.02em}
 .brand .mark{width:26px;height:26px;flex-shrink:0}
@@ -568,7 +568,10 @@ input,textarea,select{font-size:16px}
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <filter id="lg-dist" x="-15%" y="-15%" width="130%" height="130%" color-interpolation-filters="sRGB">
     <feImage x="0" y="0" width="1100" height="64" preserveAspectRatio="none" result="map"/>
-    <feDisplacementMap in="SourceGraphic" in2="map" scale="34" xChannelSelector="R" yChannelSelector="G"/>
+    <feImage x="0" y="0" width="1100" height="64" preserveAspectRatio="none" result="ring"/>
+    <feDisplacementMap in="SourceGraphic" in2="map" scale="34" xChannelSelector="R" yChannelSelector="G" result="disp"/>
+    <feGaussianBlur in="disp" stdDeviation="1.6" result="dispBlur"/>
+    <feComposite in="dispBlur" in2="ring" operator="in"/>
   </filter>
 </svg>
 
@@ -863,14 +866,20 @@ onScroll();
   const fe = document.querySelector('#lg-dist feImage');
   if (!fe) return;
 
-  // SDF displacement map for a pill: near the rim, sample outward along the
-  // surface normal (content appears pulled toward the middle). The normal
-  // rotates around the corner arcs, so corners refract radially.
-  const buildMap = (w, h) => {
-    const c = document.createElement('canvas');
-    c.width = w; c.height = h;
-    const ctx = c.getContext('2d');
-    const img = ctx.createImageData(w, h);
+  // SDF maps for a pill. The displacement map: near the rim, sample outward
+  // along the surface normal (content appears pulled toward the middle), with
+  // the normal rotating around the corner arcs. The ring mask: alpha follows
+  // the same falloff, so only the rim band paints; the center stays fully
+  // transparent and the raw page shows through untouched.
+  const buildMaps = (w, h) => {
+    const mk = () => {
+      const c = document.createElement('canvas');
+      c.width = w; c.height = h;
+      return c;
+    };
+    const cMap = mk(), cRing = mk();
+    const xMap = cMap.getContext('2d'), xRing = cRing.getContext('2d');
+    const iMap = xMap.createImageData(w, h), iRing = xRing.createImageData(w, h);
     const r = h / 2;
     const band = Math.min(26, r);
     const cy = h / 2;
@@ -880,30 +889,41 @@ onScroll();
         const dx = x - sx, dy = y - cy;
         const distC = Math.hypot(dx, dy);
         const d = r - distC;
-        let ox = 0, oy = 0;
+        let ox = 0, oy = 0, a = 0;
         if (d < band){
           const t = Math.min(1, Math.max(0, 1 - d / band));
           const mag = t * t;
           const nl = distC || 1;
           ox = (dx / nl) * mag;
           oy = (dy / nl) * mag;
+          a = Math.pow(t, 1.4);
         }
         const i = (y * w + x) * 4;
-        img.data[i]     = 128 + Math.round(ox * 127);
-        img.data[i + 1] = 128 + Math.round(oy * 127);
-        img.data[i + 2] = 128;
-        img.data[i + 3] = 255;
+        iMap.data[i]     = 128 + Math.round(ox * 127);
+        iMap.data[i + 1] = 128 + Math.round(oy * 127);
+        iMap.data[i + 2] = 128;
+        iMap.data[i + 3] = 255;
+        iRing.data[i]     = 255;
+        iRing.data[i + 1] = 255;
+        iRing.data[i + 2] = 255;
+        iRing.data[i + 3] = Math.round(a * 255);
       }
     }
-    ctx.putImageData(img, 0, 0);
-    return c.toDataURL();
+    xMap.putImageData(iMap, 0, 0);
+    xRing.putImageData(iRing, 0, 0);
+    return [cMap.toDataURL(), cRing.toDataURL()];
   };
 
+  const feRing = document.querySelectorAll('#lg-dist feImage')[1];
   const fit = () => {
     const w = nav.offsetWidth, h = nav.offsetHeight;
+    const [mapURL, ringURL] = buildMaps(w, h);
     fe.setAttribute('width', w);
     fe.setAttribute('height', h);
-    fe.setAttribute('href', buildMap(w, h));
+    fe.setAttribute('href', mapURL);
+    feRing.setAttribute('width', w);
+    feRing.setAttribute('height', h);
+    feRing.setAttribute('href', ringURL);
   };
   fit();
   let rT;
