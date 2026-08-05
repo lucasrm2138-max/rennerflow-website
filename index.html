@@ -150,6 +150,20 @@ nav.top.flg::before{
   -webkit-backdrop-filter:blur(9px) saturate(170%) brightness(1.1);
   backdrop-filter:blur(9px) saturate(170%) brightness(1.1);
 }
+.mobile-menu.flg a{
+  position:relative;
+  backdrop-filter:blur(12px) saturate(150%);-webkit-backdrop-filter:blur(12px) saturate(150%);
+  background:rgba(255,255,255,0.22);
+}
+.mobile-menu.flg a.mm-cta{background:linear-gradient(135deg,rgba(196,255,71,0.5),rgba(196,255,71,0.26))}
+.mobile-menu.flg a::before{
+  content:"";position:absolute;inset:0;border-radius:100px;pointer-events:none;
+  padding:5px;
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+  -webkit-backdrop-filter:blur(14px) saturate(170%) brightness(1.12);
+  backdrop-filter:blur(14px) saturate(170%) brightness(1.12);
+}
 nav.top.lg{
   backdrop-filter:blur(2.5px) saturate(155%) url(#lg-dist);
   background:transparent;
@@ -897,6 +911,8 @@ onScroll();
   const chromium = ua.includes('Chrome') || ua.includes('Chromium') || ua.includes('Edg');
   if (!chromium || !CSS.supports('backdrop-filter', 'url(#lg-dist)')){
     nav.classList.add('flg');
+    const mm = document.getElementById('mobileMenu');
+    if (mm) mm.classList.add('flg');
     return;
   }
   const fe = document.querySelector('#lg-dist feImage');
