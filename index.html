@@ -164,6 +164,50 @@ nav.top.flg::before{
   -webkit-backdrop-filter:blur(14px) saturate(170%) brightness(1.12);
   backdrop-filter:blur(14px) saturate(170%) brightness(1.12);
 }
+/* WebKit clone-lens: hand-built refraction for engines without
+   backdrop displacement. Five synced page clones, masked into bands. */
+nav.top.clens{background:transparent}
+nav.top.clens .brand,nav.top.clens .nav-links,nav.top.clens .nav-toggle{position:relative;z-index:3}
+nav.top.clens::after{
+  content:"";position:absolute;inset:0;border-radius:100px;pointer-events:none;z-index:2;
+  background:linear-gradient(135deg,rgba(255,255,255,0.16),rgba(255,255,255,0.04));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.5),inset 0 -1px 0 rgba(255,255,255,0.12);
+}
+.lens{
+  position:absolute;inset:0;border-radius:100px;overflow:hidden;
+  pointer-events:none;z-index:0;background:var(--bg);
+}
+.lens-layer{position:absolute;inset:0;overflow:hidden}
+.lens-base{position:absolute;top:0;left:0;will-change:transform}
+.lens-clone{pointer-events:none}
+.lens-clone .reveal,.lens-clone .reveal-stagger>*,.lens-clone .hero-copy>*{
+  opacity:1 !important;transform:none !important;transition:none !important;animation:none !important;
+}
+.lens-center{
+  filter:blur(2.5px) saturate(1.5);
+  -webkit-mask:linear-gradient(to bottom,transparent 0,#000 14px,#000 calc(100% - 14px),transparent 100%);
+  mask:linear-gradient(to bottom,transparent 0,#000 14px,#000 calc(100% - 14px),transparent 100%);
+}
+.lens-pull-top{
+  filter:blur(3px) saturate(1.5);
+  -webkit-mask:linear-gradient(to bottom,transparent 1px,#000 5px,#000 12px,transparent 18px);
+  mask:linear-gradient(to bottom,transparent 1px,#000 5px,#000 12px,transparent 18px);
+}
+.lens-pull-bottom{
+  filter:blur(3px) saturate(1.5);
+  -webkit-mask:linear-gradient(to top,transparent 1px,#000 5px,#000 12px,transparent 18px);
+  mask:linear-gradient(to top,transparent 1px,#000 5px,#000 12px,transparent 18px);
+}
+.lens-mirror-top{
+  filter:blur(1.5px) brightness(1.12) saturate(1.4);
+  -webkit-mask:linear-gradient(to bottom,#000 0,#000 5px,transparent 9px);
+  mask:linear-gradient(to bottom,#000 0,#000 5px,transparent 9px);
+}
+.lens-mirror-bottom{
+  filter:blur(1.5px) brightness(1.12) saturate(1.4);
+  -webkit-mask:linear-gradient(to top,#000 0,#000 5px,transparent 9px);
+  mask:linear-gradient(to top,#000 0,#000 5px,transparent 9px);
+}
 nav.top.lg{
   backdrop-filter:blur(2.5px) saturate(155%) url(#lg-dist);
   background:transparent;
@@ -909,10 +953,66 @@ onScroll();
 (() => {
   const ua = navigator.userAgent;
   const chromium = ua.includes('Chrome') || ua.includes('Chromium') || ua.includes('Edg');
-  if (!chromium || !CSS.supports('backdrop-filter', 'url(#lg-dist)')){
-    nav.classList.add('flg');
+  const forceClone = location.search.includes('lenstest');
+  if (forceClone || !chromium || !CSS.supports('backdrop-filter', 'url(#lg-dist)')){
     const mm = document.getElementById('mobileMenu');
     if (mm) mm.classList.add('flg');
+    // Hand-built lens: five synced clones of the page inside the bar.
+    const buildLens = () => {
+      const main = document.getElementById('main');
+      if (!main) { nav.classList.add('flg'); return; }
+      nav.classList.add('clens');
+      const lens = document.createElement('div');
+      lens.className = 'lens';
+      lens.setAttribute('aria-hidden', 'true');
+      const layers = [
+        ['lens-center', '', ''],
+        ['lens-pull-top', 'translateY(10px) scaleY(0.72)', '50% 0'],
+        ['lens-pull-bottom', 'translateY(-10px) scaleY(0.72)', '50% 100%'],
+        ['lens-mirror-top', 'scaleY(-1)', '50% 0'],
+        ['lens-mirror-bottom', 'scaleY(-1)', '50% 100%'],
+      ];
+      const bases = [];
+      layers.forEach(([cls, tf, origin]) => {
+        const layer = document.createElement('div');
+        layer.className = 'lens-layer ' + cls;
+        if (tf) layer.style.transform = tf;
+        if (origin) layer.style.transformOrigin = origin;
+        const base = document.createElement('div');
+        base.className = 'lens-base';
+        const clone = main.cloneNode(true);
+        clone.removeAttribute('id');
+        clone.querySelectorAll('[id]').forEach(el => el.removeAttribute('id'));
+        clone.classList.add('lens-clone');
+        clone.setAttribute('inert', '');
+        clone.setAttribute('aria-hidden', 'true');
+        base.appendChild(clone);
+        layer.appendChild(base);
+        lens.appendChild(layer);
+        bases.push(base);
+      });
+      nav.insertBefore(lens, nav.firstChild);
+      const width = () => {
+        lens.querySelectorAll('.lens-clone').forEach(c => { c.style.width = window.innerWidth + 'px'; });
+      };
+      width();
+      window.addEventListener('resize', width);
+      const sync = () => {
+        const r = nav.getBoundingClientRect();
+        const sc = (r.width / nav.offsetWidth) || 1;
+        const tx = -r.left / sc;
+        const ty = (-r.top - window.scrollY) / sc;
+        const t = 'translate(' + tx.toFixed(2) + 'px, ' + ty.toFixed(2) + 'px)';
+        bases.forEach(b => { b.style.transform = t; });
+        requestAnimationFrame(sync);
+      };
+      requestAnimationFrame(sync);
+    };
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+      buildLens();
+    } else {
+      nav.classList.add('flg');
+    }
     return;
   }
   const fe = document.querySelector('#lg-dist feImage');
