@@ -107,7 +107,7 @@ body{
 
 /* ═══════════════════ Background ═══════════════════ */
 .glow{
-  position:absolute;top:-320px;left:-180px;width:760px;height:760px;z-index:-2;
+  position:absolute;top:-320px;left:-180px;width:760px;height:760px;z-index:-1;
   border-radius:50%;pointer-events:none;
   background:radial-gradient(circle,rgba(196,255,71,0.22) 0%,transparent 65%);
   filter:blur(80px);
@@ -210,7 +210,7 @@ nav.top.compact{transform:translateX(-50%) scale(0.93);top:10px}
   opacity:0;transform:translateY(-18px);
   transition:opacity .35s var(--ease),transform .4s var(--ease);
 }
-.mobile-menu.lg a{backdrop-filter:blur(4px) saturate(150%) url(#lg-item);background:rgba(255,255,255,0.1)}
+.mobile-menu.lg a{backdrop-filter:blur(6px) saturate(150%) url(#lg-item);background:rgba(255,255,255,0.14)}
 .mobile-menu.lg a.mm-cta{background:linear-gradient(135deg,rgba(196,255,71,0.38),rgba(196,255,71,0.14))}
 .mobile-menu.open a{opacity:1;transform:none;pointer-events:auto}
 .mobile-menu.open a:nth-child(1){transition-delay:.02s}
@@ -556,7 +556,6 @@ input,textarea,select{font-size:16px}
   </filter>
 </svg>
 
-<div class="glow" aria-hidden="true"></div>
 <div class="noise" aria-hidden="true"></div>
 
 <!-- ─────────── NAV ─────────── -->
@@ -594,6 +593,7 @@ input,textarea,select{font-size:16px}
 
 <!-- ─────────── HERO ─────────── -->
 <section class="hero" id="top">
+  <div class="glow" aria-hidden="true"></div>
   <svg class="hero-mark" viewBox="0 0 32 32" aria-hidden="true">
     <path d="M4 6L20 6L22 11L6 11Z"/>
     <path d="M7 13L23 13L25 18L9 18Z"/>
