@@ -183,31 +183,6 @@ nav.top.clens::after{
 .lens-clone .reveal,.lens-clone .reveal-stagger>*,.lens-clone .hero-copy>*{
   opacity:1 !important;transform:none !important;transition:none !important;animation:none !important;
 }
-.lens-center{
-  filter:blur(2.5px) saturate(1.5);
-  -webkit-mask:linear-gradient(to bottom,transparent 0,#000 14px,#000 calc(100% - 14px),transparent 100%);
-  mask:linear-gradient(to bottom,transparent 0,#000 14px,#000 calc(100% - 14px),transparent 100%);
-}
-.lens-pull-top{
-  filter:blur(3px) saturate(1.5);
-  -webkit-mask:linear-gradient(to bottom,transparent 1px,#000 5px,#000 12px,transparent 18px);
-  mask:linear-gradient(to bottom,transparent 1px,#000 5px,#000 12px,transparent 18px);
-}
-.lens-pull-bottom{
-  filter:blur(3px) saturate(1.5);
-  -webkit-mask:linear-gradient(to top,transparent 1px,#000 5px,#000 12px,transparent 18px);
-  mask:linear-gradient(to top,transparent 1px,#000 5px,#000 12px,transparent 18px);
-}
-.lens-mirror-top{
-  filter:blur(1.5px) brightness(1.12) saturate(1.4);
-  -webkit-mask:linear-gradient(to bottom,#000 0,#000 5px,transparent 9px);
-  mask:linear-gradient(to bottom,#000 0,#000 5px,transparent 9px);
-}
-.lens-mirror-bottom{
-  filter:blur(1.5px) brightness(1.12) saturate(1.4);
-  -webkit-mask:linear-gradient(to top,#000 0,#000 5px,transparent 9px);
-  mask:linear-gradient(to top,#000 0,#000 5px,transparent 9px);
-}
 nav.top.lg{
   backdrop-filter:blur(2.5px) saturate(155%) url(#lg-dist);
   background:transparent;
@@ -965,19 +940,43 @@ onScroll();
       const lens = document.createElement('div');
       lens.className = 'lens';
       lens.setAttribute('aria-hidden', 'true');
-      const layers = [
-        ['lens-center', '', ''],
-        ['lens-pull-top', 'translateY(10px) scaleY(0.72)', '50% 0'],
-        ['lens-pull-bottom', 'translateY(-10px) scaleY(0.72)', '50% 100%'],
-        ['lens-mirror-top', 'scaleY(-1)', '50% 0'],
-        ['lens-mirror-bottom', 'scaleY(-1)', '50% 100%'],
-      ];
+      // Piecewise-linear approximation of the lens curve, dense near the rim.
+      // s(d): source depth sampled for a pixel at depth d from the rim.
+      // Outermost zone slopes negative -> a true inverted mirror emerges.
+      const H = nav.offsetHeight;
+      const D = H / 2;
+      const sOf = (d) => {
+        const m = 5;
+        if (d < m) return -1.15 * d;                      // mirror about the rim
+        const offM = 2.15 * m;
+        const off = offM * Math.pow((D - d) / (D - m), 2); // pull decaying inward
+        return d - off;
+      };
+      const bounds = [0, 1.5, 3, 5, 7.5, 10.5, 14, 18, 22.5, D];
+      const strips = [];
+      for (let i = 0; i < bounds.length - 1; i++) strips.push(['top', bounds[i], bounds[i + 1]]);
+      for (let i = 0; i < bounds.length - 1; i++) strips.push(['bot', bounds[i], bounds[i + 1]]);
       const bases = [];
-      layers.forEach(([cls, tf, origin]) => {
+      strips.forEach(([side, d0, d1]) => {
         const layer = document.createElement('div');
-        layer.className = 'lens-layer ' + cls;
-        if (tf) layer.style.transform = tf;
-        if (origin) layer.style.transformOrigin = origin;
+        layer.className = 'lens-layer';
+        // display/source correspondences in lens-local y
+        const disp0 = side === 'top' ? d0 : H - d0;
+        const disp1 = side === 'top' ? d1 : H - d1;
+        const src0  = side === 'top' ? sOf(d0) : H - sOf(d0);
+        const src1  = side === 'top' ? sOf(d1) : H - sOf(d1);
+        const A = (disp1 - disp0) / ((src1 - src0) || 0.0001);
+        const B = disp0 - A * src0;
+        layer.style.transform = 'translateY(' + B.toFixed(3) + 'px) scaleY(' + A.toFixed(4) + ')';
+        layer.style.transformOrigin = '50% 0';
+        const dm = (d0 + d1) / 2;
+        const blur = 2.2 + 2.6 * Math.pow(1 - dm / D, 1.5);
+        const bright = 1 + 0.13 * Math.pow(1 - dm / D, 2);
+        layer.style.filter = 'blur(' + blur.toFixed(2) + 'px) saturate(1.5) brightness(' + bright.toFixed(3) + ')';
+        const y0 = Math.min(disp0, disp1), y1 = Math.max(disp0, disp1);
+        const g = 'linear-gradient(to bottom,transparent ' + (y0 - 1).toFixed(1) + 'px,#000 ' + (y0 + 0.4).toFixed(1) + 'px,#000 ' + (y1 - 0.4).toFixed(1) + 'px,transparent ' + (y1 + 1).toFixed(1) + 'px)';
+        layer.style.webkitMaskImage = g;
+        layer.style.maskImage = g;
         const base = document.createElement('div');
         base.className = 'lens-base';
         const clone = main.cloneNode(true);
