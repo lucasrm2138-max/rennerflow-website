@@ -168,11 +168,10 @@ nav.top.flg::before{
    backdrop displacement. Five synced page clones, masked into bands. */
 nav.top.clens{background:transparent}
 nav.top.clens .brand,nav.top.clens .nav-links,nav.top.clens .nav-toggle{position:relative;z-index:3}
-nav.top.clens{border-color:rgba(255,255,255,0.32)}
+nav.top.clens{border-color:rgba(255,255,255,0.2)}
 nav.top.clens::after{
   content:"";position:absolute;inset:0;border-radius:100px;pointer-events:none;z-index:2;
-  background:linear-gradient(135deg,rgba(255,255,255,0.12),rgba(255,255,255,0.03));
-  box-shadow:inset 0 2px 8px rgba(255,255,255,0.28),inset 0 -2px 8px rgba(255,255,255,0.16);
+  background:linear-gradient(135deg,rgba(255,255,255,0.07),rgba(255,255,255,0.02));
 }
 .lens{
   position:absolute;inset:0;border-radius:100px;overflow:hidden;
@@ -971,8 +970,8 @@ onScroll();
         layer.style.transform = 'translateY(' + B.toFixed(3) + 'px) scaleY(' + A.toFixed(4) + ')';
         layer.style.transformOrigin = '50% 0';
         const dm = (d0 + d1) / 2;
-        const blur = 2.2 + 2.6 * Math.pow(1 - dm / D, 1.5);
-        const bright = 1 + 0.13 * Math.pow(1 - dm / D, 2);
+        const blur = dm < 4 ? 1.4 : 2.4 + 1.0 * Math.pow(1 - dm / D, 1.2);
+        const bright = dm < 4 ? 1.16 : 1 + 0.08 * Math.pow(1 - dm / D, 2);
         layer.style.filter = 'blur(' + blur.toFixed(2) + 'px) saturate(1.5) brightness(' + bright.toFixed(3) + ')';
         const y0 = Math.min(disp0, disp1), y1 = Math.max(disp0, disp1);
         const g = 'linear-gradient(to bottom,transparent ' + (y0 - 1).toFixed(1) + 'px,#000 ' + (y0 + 0.4).toFixed(1) + 'px,#000 ' + (y1 - 0.4).toFixed(1) + 'px,transparent ' + (y1 + 1).toFixed(1) + 'px)';
