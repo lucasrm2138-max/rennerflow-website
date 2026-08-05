@@ -908,9 +908,16 @@ onScroll();
         const distC = Math.hypot(dx, dy);
         const d = rad - distC;
         let ox = 0, oy = 0, a = 0;
-        if (d < band){
+        if (d < band && d >= 0){
+          // Real glass rim: the outer few px mirror content just past the
+          // edge (sample point moves outward as the pixel moves inward),
+          // then the pull peaks and decays toward the calm center.
+          const m = 7;
+          let off;
+          if (d < m) off = 2.2 * d;
+          else off = 15.4 * Math.pow(1 - (d - m) / (band - m), 1.6);
+          const mag = Math.min(1, off / 34.9);
           const t = Math.min(1, Math.max(0, 1 - d / band));
-          const mag = Math.pow(t, 2.5);
           const nl = distC || 1;
           ox = (dx / nl) * mag;
           oy = (dy / nl) * mag;
