@@ -557,17 +557,13 @@ input,textarea,select{font-size:16px}
     <feImage x="0" y="0" width="1100" height="64" preserveAspectRatio="none" result="ring"/>
     <feImage x="0" y="0" width="1100" height="64" preserveAspectRatio="none" result="mapInner"/>
     <feDisplacementMap in="SourceGraphic" in2="map" scale="70" xChannelSelector="R" yChannelSelector="G" result="disp"/>
-    <feGaussianBlur in="disp" stdDeviation="1.6" result="dispBlur"/>
     <feDisplacementMap in="SourceGraphic" in2="mapInner" scale="70" xChannelSelector="R" yChannelSelector="G" result="dispIn"/>
-    <feGaussianBlur in="dispIn" stdDeviation="1.2" result="dispInB"/>
-    <feColorMatrix in="dispInB" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.22 0" result="innerFaint"/>
+    <feGaussianBlur in="dispIn" stdDeviation="1" result="dispInB"/>
+    <feColorMatrix in="dispInB" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.2 0" result="innerFaint"/>
     <feComposite in="innerFaint" in2="ring" operator="in" result="innerTmp"/>
     <feComposite in="innerTmp" in2="ring" operator="in" result="innerEdge"/>
-    <feComposite in="SourceGraphic" in2="ring" operator="out" result="centerPart"/>
-    <feComposite in="dispBlur" in2="ring" operator="in" result="edgePart"/>
     <feMerge>
-      <feMergeNode in="centerPart"/>
-      <feMergeNode in="edgePart"/>
+      <feMergeNode in="disp"/>
       <feMergeNode in="innerEdge"/>
     </feMerge>
   </filter>
@@ -576,17 +572,13 @@ input,textarea,select{font-size:16px}
     <feImage x="0" y="0" width="360" height="48" preserveAspectRatio="none" result="ring"/>
     <feImage x="0" y="0" width="360" height="48" preserveAspectRatio="none" result="mapInner"/>
     <feDisplacementMap in="SourceGraphic" in2="map" scale="70" xChannelSelector="R" yChannelSelector="G" result="disp"/>
-    <feGaussianBlur in="disp" stdDeviation="1.6" result="dispBlur"/>
     <feDisplacementMap in="SourceGraphic" in2="mapInner" scale="70" xChannelSelector="R" yChannelSelector="G" result="dispIn"/>
-    <feGaussianBlur in="dispIn" stdDeviation="1.2" result="dispInB"/>
-    <feColorMatrix in="dispInB" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.22 0" result="innerFaint"/>
+    <feGaussianBlur in="dispIn" stdDeviation="1" result="dispInB"/>
+    <feColorMatrix in="dispInB" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.2 0" result="innerFaint"/>
     <feComposite in="innerFaint" in2="ring" operator="in" result="innerTmp"/>
     <feComposite in="innerTmp" in2="ring" operator="in" result="innerEdge"/>
-    <feComposite in="SourceGraphic" in2="ring" operator="out" result="centerPart"/>
-    <feComposite in="dispBlur" in2="ring" operator="in" result="edgePart"/>
     <feMerge>
-      <feMergeNode in="centerPart"/>
-      <feMergeNode in="edgePart"/>
+      <feMergeNode in="disp"/>
       <feMergeNode in="innerEdge"/>
     </feMerge>
   </filter>
@@ -922,20 +914,21 @@ onScroll();
         const distC = Math.hypot(dx, dy);
         const d = rad - distC;
         let ox = 0, oy = 0, a = 0;
-        if (d < band && d >= 0){
-          // Real glass rim: the outer few px mirror content just past the
-          // edge (sample point moves outward as the pixel moves inward),
-          // then the pull peaks and decays toward the calm center.
-          const m = 7;
+        {
+          // Continuous lens field: near-identity at the center line,
+          // accelerating outward pull toward the edges, flipping into a
+          // mirrored overshoot in the outer few px, like a real glass slab.
+          const dd = Math.max(0, Math.min(d, rad));
+          const m = 4;
+          const P = 20;
           let off;
-          if (d < m) off = 2.2 * d;
-          else off = 15.4 * Math.pow(1 - (d - m) / (band - m), 1.6);
+          if (dd < m) off = P + 2.3 * (m - dd);
+          else off = P * Math.pow((rad - dd) / (rad - m), 2.2);
           const mag = Math.min(1, off / 34.9);
-          const t = Math.min(1, Math.max(0, 1 - d / band));
           const nl = distC || 1;
           ox = (dx / nl) * mag;
           oy = (dy / nl) * mag;
-          a = Math.pow(t, 1.4);
+          a = dd < 12 ? Math.pow(1 - dd / 12, 1.2) : 0;
         }
         const i = (y * w + x) * 4;
         iMap.data[i]     = 128 + Math.round(ox * 127);
