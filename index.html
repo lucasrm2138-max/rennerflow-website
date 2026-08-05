@@ -210,7 +210,7 @@ nav.top.compact{transform:translateX(-50%) scale(0.93);top:10px}
   opacity:0;transform:translateY(-18px);
   transition:opacity .35s var(--ease),transform .4s var(--ease);
 }
-.mobile-menu.lg a{backdrop-filter:blur(1.2px) saturate(150%) url(#lg-item);background:transparent}
+.mobile-menu.lg a{backdrop-filter:blur(2.2px) saturate(150%) url(#lg-item);background:transparent}
 .mobile-menu.lg a.mm-cta{background:linear-gradient(135deg,rgba(196,255,71,0.38),rgba(196,255,71,0.14))}
 .mobile-menu.open a{opacity:1;transform:none;pointer-events:auto}
 .mobile-menu.open a:nth-child(1){transition-delay:.02s}
@@ -237,16 +237,14 @@ nav.top.compact{transform:translateX(-50%) scale(0.93);top:10px}
 }
 
 /* ═══════════════════ Hero ═══════════════════ */
-.hero{padding:148px 0 64px;overflow:clip}
+.hero{padding:148px 0 40px;overflow:clip}
+section#work{padding-top:12px}
 .hero-mark{
   position:absolute;right:-150px;top:-70px;width:600px;height:600px;
   opacity:0.2;pointer-events:none;z-index:-1;
 }
 .hero-mark path{fill:var(--lime)}
 @media (max-width:960px){.hero-mark{width:380px;height:380px;right:-120px;top:auto;bottom:-60px;opacity:0.14}}
-.hero-grid{display:grid;grid-template-columns:1.3fr 0.7fr;gap:56px;align-items:center}
-@media (max-width:960px){.hero-grid{grid-template-columns:1fr;gap:44px}}
-
 h1.display{
   font-family:'Bricolage Grotesque','Geist',sans-serif;
   font-size:clamp(40px,4.6vw,63px);font-weight:700;line-height:1.04;letter-spacing:-0.025em;
@@ -260,56 +258,7 @@ h1.display{
   .hero-copy > *{opacity:0;transform:translateY(18px);animation:rise .8s var(--ease) forwards}
   .hero-copy > *:nth-child(2){animation-delay:.1s}
   .hero-copy > *:nth-child(3){animation-delay:.2s}
-  .hero-visual{opacity:0;transform:translateY(18px);animation:rise .8s var(--ease) .25s forwards}
   @keyframes rise{to{opacity:1;transform:translateY(0)}}
-}
-
-/* Pipeline spec card — stays dark: the workflow's world is the terminal */
-.spec-card{
-  background:#14170C;border:1px solid #262B18;border-radius:var(--r-card);
-  overflow:hidden;
-  box-shadow:0 28px 56px -24px rgba(23,26,15,0.35);
-}
-.spec-head{
-  padding:14px 22px;border-bottom:1px solid rgba(242,244,236,0.1);
-  font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;
-  color:rgba(242,244,236,0.4);display:flex;justify-content:space-between;gap:12px;
-}
-.spec-head .k{color:rgba(242,244,236,0.7)}
-.spec-body{padding:10px 22px 16px}
-.run-row{
-  display:grid;grid-template-columns:76px 1fr auto;gap:14px;align-items:baseline;
-  padding:13px 0;border-bottom:1px solid rgba(242,244,236,0.08);
-  font-family:'Geist Mono',monospace;font-size:13px;line-height:1.4;
-}
-.run-row:last-child{border-bottom:none}
-.run-row .t{font-size:11px;color:rgba(242,244,236,0.4)}
-.run-row .msg{color:#F2F4EC}
-.run-row .st{color:var(--lime);opacity:0;transition:opacity .3s var(--ease);display:inline-block}
-.run-row.done .st{opacity:1}
-@media (prefers-reduced-motion: no-preference){
-  .run-row.done .st{animation:st-pop .32s var(--ease)}
-}
-@keyframes st-pop{0%{transform:scale(0.3)}65%{transform:scale(1.3)}100%{transform:scale(1)}}
-.run-row.final .msg{color:rgba(242,244,236,0.45);text-transform:uppercase;font-size:11px;letter-spacing:0.08em}
-.run-row .st.lime{font-size:13px}
-@media (prefers-reduced-motion: no-preference){
-  .run-row{opacity:0;transform:translateY(5px);transition:opacity .45s var(--ease),transform .45s var(--ease)}
-  .run-row .st{transition:opacity .3s var(--ease)}
-}
-.run-row.on{opacity:1;transform:none}
-@media (prefers-reduced-motion: reduce){.run-row{opacity:1}.run-row .st{opacity:1}}
-@media (max-width:560px){
-  .spec-body{padding:6px 18px 12px}
-  .run-row{grid-template-columns:64px 1fr auto;gap:10px;font-size:12px}
-}
-.spec-proof{
-  margin-top:14px;font-size:13px;color:var(--ink-mute);text-align:right;
-}
-.spec-proof a{color:var(--ink-dim);border-bottom:1px dotted var(--ink-mute);transition:color .2s,border-color .2s}
-.spec-proof a:hover{color:var(--lime-text);border-color:var(--lime-text)}
-@media (min-width:961px){
-  .hero-visual{margin-right:-56px}
 }
 
 /* ═══════════════════ Section heads ═══════════════════ */
@@ -659,31 +608,15 @@ input,textarea,select{font-size:16px}
     <path d="M10 20L26 20L28 25L12 25Z"/>
   </svg>
   <div class="wrap">
-    <div class="hero-grid">
-      <div class="hero-copy">
-        <h1 class="display">The work you repeat,<br />running itself.</h1>
-        <p class="lede">
-          Custom AI workflows, built into the tools your team already uses.
-        </p>
-        <div class="cta-row">
-          <a href="#contact" class="btn btn-lg">Book a call
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-          </a>
-        </div>
-      </div>
-
-      <div class="hero-visual">
-        <div class="spec-card" aria-label="Example workflow run">
-          <div class="spec-head"><span class="k">workflow</span><span>example run</span></div>
-          <div class="spec-body" id="runlog">
-            <div class="run-row"><span class="t">07:00:02</span><span class="msg">watching 18 sources</span><span class="st">&#10003;</span></div>
-            <div class="run-row"><span class="t">07:03:47</span><span class="msg">31 records extracted</span><span class="st">&#10003;</span></div>
-            <div class="run-row"><span class="t">07:09:12</span><span class="msg">enriched, 2 duplicates blocked</span><span class="st">&#10003;</span></div>
-            <div class="run-row"><span class="t">07:11:03</span><span class="msg">29 rows written to your CRM</span><span class="st">&#10003;</span></div>
-            <div class="run-row final"><span class="t"></span><span class="msg">your part</span><span class="st lime">nothing</span></div>
-          </div>
-        </div>
-        <div class="spec-proof">In production at <a href="#work">Radicle Growth</a></div>
+    <div class="hero-copy">
+      <h1 class="display">The work you repeat,<br />running itself.</h1>
+      <p class="lede">
+        Custom AI workflows, built into the tools your team already uses.
+      </p>
+      <div class="cta-row">
+        <a href="#contact" class="btn btn-lg">Book a call
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
       </div>
     </div>
   </div>
@@ -1016,20 +949,6 @@ onScroll();
 
   window.addEventListener('resize', () => {
     if (window.innerWidth > 720 && menu.classList.contains('open')) setOpen(false);
-  });
-})();
-
-// ───── Hero run-log animation ─────
-(() => {
-  const rows = document.querySelectorAll('#runlog .run-row');
-  if (!rows.length) return;
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches){
-    rows.forEach(r => r.classList.add('on','done'));
-    return;
-  }
-  rows.forEach((r, i) => {
-    setTimeout(() => r.classList.add('on'), 800 + i*520);
-    setTimeout(() => r.classList.add('done'), 1150 + i*520);
   });
 })();
 
