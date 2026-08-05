@@ -209,7 +209,7 @@ nav.top.compact{transform:translateX(-50%) scale(0.93);top:10px}
   visibility:hidden;transform:translateY(-16px);
   transition:transform .4s var(--ease),visibility 0s;
 }
-.mobile-menu.lg a{backdrop-filter:blur(7.5px) saturate(150%) url(#lg-item);background:rgba(255,255,255,0.17)}
+.mobile-menu.lg a{backdrop-filter:blur(9.5px) saturate(150%) url(#lg-item);background:rgba(255,255,255,0.2)}
 .mobile-menu.lg a.mm-cta{background:linear-gradient(135deg,rgba(196,255,71,0.38),rgba(196,255,71,0.14))}
 .mobile-menu.open a{visibility:visible;transform:none;pointer-events:auto}
 .mobile-menu.open a:nth-child(1){transition-delay:.02s}
@@ -532,7 +532,7 @@ input,textarea,select{font-size:16px}
   <filter id="lg-dist" x="-15%" y="-15%" width="130%" height="130%" color-interpolation-filters="sRGB">
     <feImage x="0" y="0" width="1100" height="64" preserveAspectRatio="none" result="map"/>
     <feImage x="0" y="0" width="1100" height="64" preserveAspectRatio="none" result="ring"/>
-    <feDisplacementMap in="SourceGraphic" in2="map" scale="34" xChannelSelector="R" yChannelSelector="G" result="disp"/>
+    <feDisplacementMap in="SourceGraphic" in2="map" scale="70" xChannelSelector="R" yChannelSelector="G" result="disp"/>
     <feGaussianBlur in="disp" stdDeviation="1.6" result="dispBlur"/>
     <feComposite in="SourceGraphic" in2="ring" operator="out" result="centerPart"/>
     <feComposite in="dispBlur" in2="ring" operator="in" result="edgePart"/>
@@ -544,7 +544,7 @@ input,textarea,select{font-size:16px}
   <filter id="lg-item" x="-15%" y="-15%" width="130%" height="130%" color-interpolation-filters="sRGB">
     <feImage x="0" y="0" width="360" height="48" preserveAspectRatio="none" result="map"/>
     <feImage x="0" y="0" width="360" height="48" preserveAspectRatio="none" result="ring"/>
-    <feDisplacementMap in="SourceGraphic" in2="map" scale="34" xChannelSelector="R" yChannelSelector="G" result="disp"/>
+    <feDisplacementMap in="SourceGraphic" in2="map" scale="70" xChannelSelector="R" yChannelSelector="G" result="disp"/>
     <feGaussianBlur in="disp" stdDeviation="1.6" result="dispBlur"/>
     <feComposite in="SourceGraphic" in2="ring" operator="out" result="centerPart"/>
     <feComposite in="dispBlur" in2="ring" operator="in" result="edgePart"/>
@@ -843,7 +843,7 @@ onScroll();
     const cMap = mk(), cRing = mk();
     const xMap = cMap.getContext('2d'), xRing = cRing.getContext('2d');
     const iMap = xMap.createImageData(w, h), iRing = xRing.createImageData(w, h);
-    const band = Math.min(26, rad);
+    const band = Math.min(30, rad);
     for (let y = 0; y < h; y++){
       for (let x = 0; x < w; x++){
         const sx = Math.min(Math.max(x, rad), w - rad);
@@ -854,7 +854,7 @@ onScroll();
         let ox = 0, oy = 0, a = 0;
         if (d < band){
           const t = Math.min(1, Math.max(0, 1 - d / band));
-          const mag = t * t;
+          const mag = Math.pow(t, 2.5);
           const nl = distC || 1;
           ox = (dx / nl) * mag;
           oy = (dy / nl) * mag;
