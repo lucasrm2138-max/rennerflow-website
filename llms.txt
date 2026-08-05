@@ -37,7 +37,7 @@ RennerFlow is proven in production on deal sourcing for investment firms and run
 
 ## Engagement Process
 
-- Scope: the workflow is run by hand first to learn the client's sources, taxonomy, and tools.
+- Scope: the workflow is process-mapped by hand first to learn the client's sources, taxonomy, and tools.
 - Build: integrated into the client's existing systems.
 - Run: live in production with ongoing monitoring and maintenance. Scope to live takes about a month.
 
